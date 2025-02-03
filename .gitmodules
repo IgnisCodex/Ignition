@@ -1,0 +1,6 @@
+[submodule "Ignition/vendor/GLFW"]
+	path = Ignition/vendor/GLFW
+	url = https://github.com/IgnisCodex/glfw
+[submodule "Ignition/vendor/spdlog"]
+	path = Ignition/vendor/spdlog
+	url = https://github.com/gabime/spdlog
