@@ -4,6 +4,7 @@
 #include "API.hpp"
 
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 namespace Ignition {
 	class IGNITION_API Log {
