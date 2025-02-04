@@ -14,7 +14,7 @@ namespace Ignition {
 
 		inline unsigned int GetWidth() const override { return mWindowData.Width; }
 		inline unsigned int GetHeight() const override { return mWindowData.Height; }
-		inline void SetEventCallback(const EventCallback& callback) override { mWindowData.EventCallback; }
+		inline void SetEventCallback(const EventCallback& callback) override { mWindowData.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 
 		bool IsVSync() const override;
