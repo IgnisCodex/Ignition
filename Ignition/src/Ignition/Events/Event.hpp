@@ -1,8 +1,7 @@
 #pragma once
 
+#include "IGPCH.hpp"
 #include "Ignition/API.hpp"
-#include <string>
-#include <functional>
 
 namespace Ignition::Events {
 
@@ -37,10 +36,9 @@ namespace Ignition::Events {
 		}
 	};
 
-	class IGNITION_API EventDispatcher {
+	class EventDispatcher {
 	public:
 		using EventCallback = std::function<void(const Event&)>;
-
 
 		template <typename T>
 		void Register(std::function<void(const T&)> callback) {

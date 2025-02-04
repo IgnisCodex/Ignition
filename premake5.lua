@@ -19,6 +19,9 @@ project "Ignition"
     targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
     objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
 
+    pchheader "IGPCH.hpp"
+    pchsource "%{prj.name}/src/IGPCH.cpp"
+
     files {
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp"

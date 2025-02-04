@@ -1,13 +1,9 @@
 #pragma once
 
-// C++ Standard Libraries
-#include <memory>
-
-// External Libraries
-#include "spdlog/spdlog.h"
-
-// Ignition Libraries
+#include "IGPCH.hpp"
 #include "API.hpp"
+
+#include "spdlog/spdlog.h"
 
 namespace Ignition {
 	class IGNITION_API Log {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include "IGPCH.hpp"
 
 #include "Ignition/API.hpp"
 #include "Ignition/Window.hpp"

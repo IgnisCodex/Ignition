@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Ignition/Events/Event.hpp"
-#include <string>
 
 namespace Ignition::Events {
 	class IGNITION_API MouseEvent : public Event {
