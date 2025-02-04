@@ -5,7 +5,7 @@
 namespace Ignition::Events {
 	class IGNITION_API ApplicationEvent : public Event {
 	public:
-		inline EventCategory GetCategory() const override { return EventCategory::Application; }
+		EVENT_CATEGORY(EventCategory::Application)
 	};
 
 	class IGNITION_API WindowResizeEvent : public ApplicationEvent {
@@ -15,16 +15,24 @@ namespace Ignition::Events {
 			, mHeight(height)
 		{}
 
-		inline std::string GetName() const override { return "WindowResizeEvent"; }
-		inline EventType GetType() const override { return EventType::Keyboard; }
+		inline std::string GetName() const override {
+			std::stringstream ss;
+			ss << "WindowResizeEvent: " << mWidth << ", " << mHeight;
+			return ss.str();
+		}
+		
 		inline int GetWidth() const { return mWidth; }
 		inline int GetHeight() const { return mHeight; }
+
+		EVENT_TYPE(EventType::Window);
 
 	private:
 		int mWidth, mHeight;
 	};
 
 	class IGNITION_API WindowCloseEvent : public ApplicationEvent {
+	public:
 		inline std::string GetName() const override { return "WindowCloseEvent"; }
+		EVENT_TYPE(EventType::Window)
 	};
 }

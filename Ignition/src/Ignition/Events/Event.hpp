@@ -20,7 +20,13 @@ namespace Ignition::Events {
 		Input
 	};
 
+#define EVENT_TYPE(type) static EventType GetStaticType() { return type; }\
+	virtual EventType GetType() const override { return GetStaticType(); }
+
+#define EVENT_CATEGORY(category) virtual EventCategory GetCategory() const override { return category; }
+
 	class IGNITION_API Event {
+		friend class EventDispatcher;
 	public:
 		virtual ~Event() = default;
 		virtual std::string GetName() const = 0;
@@ -34,31 +40,28 @@ namespace Ignition::Events {
 		bool IsInCategory(EventCategory category) const {
 			return GetCategory() == category;
 		}
+
+	protected:
+		bool mHandled = false;
 	};
 
 	class EventDispatcher {
+		template<typename T>
+		using EventFn = std::function<bool(T&)>;
 	public:
-		using EventCallback = std::function<void(const Event&)>;
+		EventDispatcher(Event& event)
+			: mEvent(event) 
+		{}
 
-		template <typename T>
-		void Register(std::function<void(const T&)> callback) {
-			auto wrapper = [callback](const Event& event) {
-				callback(static_cast<const T&>(event));
-			};
-
-			mListeners[T::StaticType()].push_back(wrapper);
-		}
-
-		void Dispatch(const Event& event) {
-			auto it = mListeners.find(event.GetName());
-			if (it != mListeners.end()) {
-				for (auto& listener : it->second) {
-					listener(event);
-				}
+		template<typename T>
+		bool Dispatch(EventFn<T> func) {
+			if (mEvent.GetType() == T::GetStaticType()) {
+				mEvent.mHandled = func(*(T*)&mEvent);
+				return true;
 			}
+			return false;
 		}
-
 	private:
-		std::unordered_map<std::string, std::vector<EventCallback>> mListeners;
+		Event& mEvent;
 	};
 }
