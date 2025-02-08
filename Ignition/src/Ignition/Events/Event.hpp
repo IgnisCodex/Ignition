@@ -41,8 +41,7 @@ namespace Ignition::Events {
 			return GetCategory() == category;
 		}
 
-	protected:
-		bool mHandled = false;
+		bool IsHandled = false;
 	};
 
 	class EventDispatcher {
@@ -56,7 +55,7 @@ namespace Ignition::Events {
 		template<typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (mEvent.GetType() == T::GetStaticType()) {
-				mEvent.mHandled = func(*(T*)&mEvent);
+				mEvent.IsHandled = func(*(T*)&mEvent);
 				return true;
 			}
 			return false;

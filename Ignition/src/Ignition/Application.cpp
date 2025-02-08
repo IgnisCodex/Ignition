@@ -19,21 +19,34 @@ namespace Ignition {
 		while (mIsRunning) {
 			glClearColor(1, 0, 0, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+			for (Core::Layer* layer : mLayerStack)
+				layer->OnUpdate();
 			mWindow->OnUpdate();
 		}
 	}
 
-	bool Application::End(Events::WindowCloseEvent& event) {
-		mIsRunning = false;
-		return true;
+	void Application::PushLayer(Core::Layer* layer) {
+		mLayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Core::Layer* layer) {
+		mLayerStack.PushOverlay(layer);
 	}
 
 	void Application::OnEvent(Events::Event& event) {
 		Events::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<Events::WindowCloseEvent>(std::bind(&Application::End, this, std::placeholders::_1));
 		
-		
-		if (event.IsType(Events::EventType::Window))
-			IG_CORE_TRACE("{}", event.GetName());
+		for (auto it = mLayerStack.end(); it != mLayerStack.begin();) {
+			(*--it)->OnEvent(event);
+			if (event.IsHandled)
+				break;
+		}
+	}
+
+	// Private Methods
+	bool Application::End(Events::WindowCloseEvent& event) {
+		mIsRunning = false;
+		return true;
 	}
 }
