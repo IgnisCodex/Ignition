@@ -9,7 +9,9 @@ OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 INCLUDE_DIR = {}
 INCLUDE_DIR["GLFW"] = "Ignition/vendor/GLFW/include"
+INCLUDE_DIR["GLAD"] = "Ignition/vendor/GLAD/include"
 include "Ignition/vendor/GLFW"
+include "Ignition/vendor/GLAD"
 
 project "Ignition"
     location "Ignition"
@@ -30,12 +32,18 @@ project "Ignition"
     includedirs {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{INCLUDE_DIR.GLFW}"
+        "%{INCLUDE_DIR.GLFW}",
+        "%{INCLUDE_DIR.GLAD}"
     }
 
     links {
         "GLFW",
+        "GLAD",
         "opengl32.lib"
+    }
+
+    defines {
+        "GLFW_INCLUDE_NONE"
     }
 
     filter "system:windows"

@@ -1,3 +1,4 @@
+#include "IGPCH.hpp"
 #include "Ignition/Core/LayerStack.hpp"
 
 namespace Ignition::Core {

@@ -1,9 +1,12 @@
+#include "IGPCH.hpp"
 #include "Platform/Windows/Window_Impl_Windows.hpp"
 #include "Ignition/Log.hpp"
 
 #include "Ignition/Events/ApplicationEvent.hpp"
 #include "Ignition/Events/KeyboardEvent.hpp"
 #include "Ignition/Events/MouseEvent.hpp"
+
+#include <glad/glad.h>
 
 namespace Ignition {
 
@@ -37,6 +40,8 @@ namespace Ignition {
 
 		mWindow = glfwCreateWindow((int)properties.Width, (int)properties.Height, properties.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(mWindow);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		IG_CORE_ASSERT(status, "Failed to Initialise GLAD!");
 		glfwSetWindowUserPointer(mWindow, &mWindowData);
 		SetVSync(true);
 
