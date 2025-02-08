@@ -4,3 +4,7 @@
 [submodule "Ignition/vendor/spdlog"]
 	path = Ignition/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Ignition/vendor/imgui"]
+	path = Ignition/vendor/imgui
+	url = https://github.com/IgnisCodex/imgui
+	branch = docking
