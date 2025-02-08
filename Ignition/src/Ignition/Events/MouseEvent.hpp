@@ -21,8 +21,8 @@ namespace Ignition::Events {
 			ss << "MouseMovedEvent: " << mX << ", " << mY;
 			return ss.str();
 		}
-		inline int GetX() const { return mX; }
-		inline int GetY() const { return mY; }
+		inline float GetX() const { return mX; }
+		inline float GetY() const { return mY; }
 
 	private:
 		float mX, mY;
@@ -40,8 +40,8 @@ namespace Ignition::Events {
 			ss << "MouseScrollEvent: " << mXOffset << ", " << mYOffset;
 			return ss.str();
 		}
-		inline int GetXOffset() const { return mXOffset; }
-		inline int GetYOffset() const { return mYOffset; }
+		inline float GetXOffset() const { return mXOffset; }
+		inline float GetYOffset() const { return mYOffset; }
 
 	private:
 		float mXOffset, mYOffset;
