@@ -1,8 +1,10 @@
 #pragma once
 
 #include "IGPCH.hpp"
-#include "Ignition/API.hpp"
+
 #include "Ignition/Core/Layer.hpp"
+
+#include "Ignition/API.hpp"
 
 namespace Ignition::Core {
 	class IGNITION_API LayerStack {
@@ -20,6 +22,6 @@ namespace Ignition::Core {
 
 	private:
 		std::vector<Layer*> mLayers;
-		std::vector<Layer*>::iterator mLayerInsert;
+		unsigned int mLayerInsertIndex = 0;
 	};
 }

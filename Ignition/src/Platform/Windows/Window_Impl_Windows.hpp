@@ -12,6 +12,7 @@ namespace Ignition {
 		Window_Impl_Windows(const WindowProperties& properties);
 		virtual ~Window_Impl_Windows();
 
+		virtual void* GetNativeWindow() const { return mWindow; }
 		inline unsigned int GetWidth() const override { return mWindowData.Width; }
 		inline unsigned int GetHeight() const override { return mWindowData.Height; }
 		inline void SetEventCallback(const EventCallback& callback) override { mWindowData.EventCallback = callback; }

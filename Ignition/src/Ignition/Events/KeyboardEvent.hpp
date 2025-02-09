@@ -7,7 +7,6 @@ namespace Ignition::Events {
 	class IGNITION_API KeyboardEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return mKeyCode; }
-		EVENT_TYPE(EventType::Keyboard)
 		EVENT_CATEGORY(EventCategory::Input)
 
 	protected:
@@ -30,7 +29,10 @@ namespace Ignition::Events {
 			ss << "KeyPressedEvent: Key '" << mKeyCode << "'\tRepeat Count '" << mRepeatedKeyCount << "'";
 			return ss.str();
 		}
+
 		inline int GetRepeatedKeyCount() const { return mRepeatedKeyCount; }
+
+		EVENT_TYPE(EventType::KeyPressed)
 
 	private:
 		int mRepeatedKeyCount;
@@ -47,5 +49,7 @@ namespace Ignition::Events {
 			ss << "KeyReleasedEvent: Key '" << mKeyCode << "'";
 			return ss.str();
 		}
+
+		EVENT_TYPE(EventType::KeyReleased)
 	};
 }

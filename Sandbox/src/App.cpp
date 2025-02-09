@@ -5,7 +5,7 @@ public:
 	ExampleLayer() {}
 
 	void OnUpdate() override {
-		IG_INFO("ExampleLayer::OnUpdate()");
+		
 	}
 
 	void OnEvent(Ignition::Events::Event& event) override {
@@ -13,7 +13,7 @@ public:
 	}
 };
 
-class Sandbox : public Ignition::Application {
+class Sandbox : public Ignition::Core::Application {
 public:
 	Sandbox() {
 		IG_INFO("Started!");
@@ -25,6 +25,6 @@ public:
 	}
 };
 
-Ignition::Application* Ignition::CreateApplication() {
+Ignition::Core::Application* Ignition::Core::CreateApplication() {
 	return new Sandbox();
 }

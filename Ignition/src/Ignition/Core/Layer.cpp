@@ -1,4 +1,5 @@
 #include "IGPCH.hpp"
+
 #include "Ignition/Core/Layer.hpp"
 
 namespace Ignition::Core {

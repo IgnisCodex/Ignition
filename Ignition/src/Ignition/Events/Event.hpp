@@ -8,9 +8,27 @@ namespace Ignition::Events {
 	enum class EventType {
 		None,
 
-		Window,
-		Keyboard,
-		Mouse
+		// Window Event Types
+		WindowClosed,
+		WindowResized,
+		WindowMoved,
+		WindowFocused,
+		WindowUnfocused,
+
+		// Keyboard Event Types
+		KeyPressed,
+		KeyReleased,
+
+		// Mouse Event Types
+		MouseMoved,
+		MouseButtonPressed,
+		MouseButtonReleased,
+		MouseScrolled,
+
+		// Application Event Types
+		ApplicationTick,
+		ApplicationUpdate,
+		ApplicationRender
 	};
 
 	enum class EventCategory {
@@ -47,6 +65,7 @@ namespace Ignition::Events {
 	class EventDispatcher {
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
+
 	public:
 		EventDispatcher(Event& event)
 			: mEvent(event) 
@@ -58,8 +77,10 @@ namespace Ignition::Events {
 				mEvent.IsHandled = func(*(T*)&mEvent);
 				return true;
 			}
+
 			return false;
 		}
+
 	private:
 		Event& mEvent;
 	};

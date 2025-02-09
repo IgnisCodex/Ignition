@@ -5,7 +5,6 @@
 namespace Ignition::Events {
 	class IGNITION_API MouseEvent : public Event {
 	public:
-		EVENT_TYPE(EventType::Mouse)
 		EVENT_CATEGORY(EventCategory::Input)
 	};
 
@@ -23,6 +22,8 @@ namespace Ignition::Events {
 		}
 		inline float GetX() const { return mX; }
 		inline float GetY() const { return mY; }
+
+		EVENT_TYPE(EventType::MouseMoved)
 
 	private:
 		float mX, mY;
@@ -42,6 +43,8 @@ namespace Ignition::Events {
 		}
 		inline float GetXOffset() const { return mXOffset; }
 		inline float GetYOffset() const { return mYOffset; }
+
+		EVENT_TYPE(EventType::MouseScrolled)
 
 	private:
 		float mXOffset, mYOffset;
@@ -70,6 +73,8 @@ namespace Ignition::Events {
 			ss << "MouseButtonPressedEvent: " << mButton;
 			return ss.str();
 		}
+
+		EVENT_TYPE(EventType::MouseButtonPressed)
 	};
 
 	class IGNITION_API MouseButtonReleasedEvent : public MouseButtonEvent {
@@ -83,5 +88,7 @@ namespace Ignition::Events {
 			ss << "MouseButtonReleasedEvent: " << mButton;
 			return ss.str();
 		}
+
+		EVENT_TYPE(EventType::MouseButtonReleased)
 	};
 }

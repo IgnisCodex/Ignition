@@ -2,6 +2,8 @@
 
 #include "Ignition/Events/Event.hpp"
 
+#include "Ignition/Log.hpp"
+
 namespace Ignition::Events {
 	class IGNITION_API ApplicationEvent : public Event {
 	public:
@@ -10,10 +12,12 @@ namespace Ignition::Events {
 
 	class IGNITION_API WindowResizeEvent : public ApplicationEvent {
 	public:
-		WindowResizeEvent(int width, int height)
+		WindowResizeEvent(unsigned int width, unsigned int height)
 			: mWidth(width)
 			, mHeight(height)
-		{}
+		{
+			IG_CORE_WARN("{}, {}", width, height);
+		}
 
 		inline std::string GetName() const override {
 			std::stringstream ss;
@@ -21,18 +25,20 @@ namespace Ignition::Events {
 			return ss.str();
 		}
 		
-		inline int GetWidth() const { return mWidth; }
-		inline int GetHeight() const { return mHeight; }
+		inline unsigned int GetWidth() const { return mWidth; }
+		inline unsigned int GetHeight() const { return mHeight; }
 
-		EVENT_TYPE(EventType::Window);
+		EVENT_TYPE(EventType::WindowResized)
 
 	private:
-		int mWidth, mHeight;
+		unsigned int mWidth, mHeight;
 	};
 
 	class IGNITION_API WindowCloseEvent : public ApplicationEvent {
 	public:
+		WindowCloseEvent() {}
+
 		inline std::string GetName() const override { return "WindowCloseEvent"; }
-		EVENT_TYPE(EventType::Window)
+		EVENT_TYPE(EventType::WindowClosed)
 	};
 }

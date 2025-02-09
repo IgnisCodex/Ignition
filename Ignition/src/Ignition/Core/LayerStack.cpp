@@ -1,10 +1,9 @@
 #include "IGPCH.hpp"
+
 #include "Ignition/Core/LayerStack.hpp"
 
 namespace Ignition::Core {
-	LayerStack::LayerStack() {
-		mLayerInsert = mLayers.begin();
-	}
+	LayerStack::LayerStack() {}
 
 	LayerStack::~LayerStack() {
 		for (Layer* layer : mLayers)
@@ -12,14 +11,15 @@ namespace Ignition::Core {
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-		mLayerInsert = mLayers.emplace(mLayerInsert, layer);
+		mLayers.emplace(mLayers.begin() + mLayerInsertIndex, layer);
+		mLayerInsertIndex++;
 	}
 
 	void LayerStack::PopLayer(Layer* layer) {
 		auto it = std::find(mLayers.begin(), mLayers.end(), layer);
 		if (it != mLayers.end()) {
 			mLayers.erase(it);
-			mLayerInsert--;
+			mLayerInsertIndex--;
 		}
 	}
 

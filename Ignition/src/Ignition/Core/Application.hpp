@@ -7,8 +7,9 @@
 #include "Ignition/Core/LayerStack.hpp"
 #include "Ignition/Events/Event.hpp"
 #include "Ignition/Events/ApplicationEvent.hpp"
+#include "Ignition/UI/ImGuiLayer.hpp"
 
-namespace Ignition {
+namespace Ignition::Core {
 	class IGNITION_API Application {
 	public:
 		Application();
@@ -21,12 +22,23 @@ namespace Ignition {
 		void PushLayer(Core::Layer* layer);
 		void PushOverlay(Core::Layer* layer);
 
-	private:
-		bool End(Events::WindowCloseEvent& event);
+		inline Window& GetWindow() { return *mWindow; }
+		inline static Application& Get() { return *sInstance; }
 
+	private:
+		bool OnWindowCloseEvent(Events::WindowCloseEvent& event);
+
+	private:
 		std::unique_ptr<Window> mWindow;
-		bool mIsRunning = true;
+
+		UI::ImGuiLayer* mImGuiLayer;
 		Core::LayerStack mLayerStack;
+
+		bool mIsRunning = true;
+		bool mIsMinimized = false;
+
+	private:
+		static Application* sInstance;
 	};
 
 	// To be defined in CLIENT
