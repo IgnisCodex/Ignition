@@ -8,3 +8,6 @@
 	path = Ignition/vendor/imgui
 	url = https://github.com/IgnisCodex/imgui
 	branch = docking
+[submodule "Ignition/vendor/glm"]
+	path = Ignition/vendor/glm
+	url = https://github.com/g-truc/glm

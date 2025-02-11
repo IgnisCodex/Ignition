@@ -1,7 +1,7 @@
 #include "IGPCH.hpp"
 #include "Platform/Windows/Window_Impl_Windows.hpp"
-#include "Ignition/Log.hpp"
 
+#include "Ignition/Log.hpp"
 #include "Ignition/Events/ApplicationEvent.hpp"
 #include "Ignition/Events/KeyboardEvent.hpp"
 #include "Ignition/Events/MouseEvent.hpp"
@@ -29,7 +29,7 @@ namespace Ignition {
 		mWindowData.Width = properties.Width;
 		mWindowData.Height = properties.Height;
 
-		IG_CORE_INFO("Creating Window: '{}' ({} x {})", properties.Title, properties.Width, properties.Height);
+		IG_CORE_INFO("Initalising Window: '{}' ({} x {})", properties.Title, properties.Width, properties.Height);
 
 		if (!IsGLFWInitalised) {
 			int result = glfwInit();

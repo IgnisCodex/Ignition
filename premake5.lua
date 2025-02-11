@@ -11,6 +11,7 @@ INCLUDE_DIR = {}
 INCLUDE_DIR["GLFW"] = "Ignition/vendor/GLFW/include"
 INCLUDE_DIR["GLAD"] = "Ignition/vendor/GLAD/include"
 INCLUDE_DIR["ImGui"] = "Ignition/vendor/imgui"
+INCLUDE_DIR["GLM"] = "Ignition/vendor/glm"
 
 include "Ignition/vendor/GLFW"
 include "Ignition/vendor/GLAD"
@@ -38,6 +39,7 @@ project "Ignition"
         "%{INCLUDE_DIR.GLFW}",
         "%{INCLUDE_DIR.GLAD}",
         "%{INCLUDE_DIR.ImGui}",
+        "%{INCLUDE_DIR.GLM}",
     }
 
     links {
@@ -101,7 +103,8 @@ project "Sandbox"
 
     includedirs {
         "Ignition/src",
-        "Ignition/vendor/spdlog/include"
+        "Ignition/vendor/spdlog/include",
+        "%{INCLUDE_DIR.GLM}"
     }
 
     links {
