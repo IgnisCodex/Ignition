@@ -19,8 +19,10 @@ include "Ignition/vendor/imgui"
 
 project "Ignition"
     location "Ignition"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
     objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
@@ -50,23 +52,18 @@ project "Ignition"
     }
 
     defines {
-        "GLFW_INCLUDE_NONE"
+        "GLFW_INCLUDE_NONE",
+        "_CRT_SECURE_NO_WARNINGS",
+        
+
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
             "IG_PLATFORM_WINDOWS",
             "IG_BUILD_DLL"
-        }
-
-        postbuildcommands {
-            {
-                "{COPY} %{cfg.buildtarget.relpath} ../build/bin/" .. OUTPUT_DIR .. "/Sandbox"
-            }
         }
 
         buildoptions {
@@ -75,23 +72,26 @@ project "Ignition"
 
     filter "configurations:Debug"
         defines { "IG_CONFIG_DEBUG" }  
-        symbols "On"
-        buildoptions "/MDd"
+        symbols "on"
+        runtime "Debug"
 
     filter "configurations:Release"  
         defines { "IG_CONFIG_RELEASE" }    
-        optimize "On"
-        buildoptions "/MD"
-
+        optimize "on"
+        runtime "Release"
+        
     filter "configurations:Dist"  
         defines { "IG_CONFIG_DIST" }    
-        optimize "On"
-        buildoptions "/MD"
+        optimize "on"
+        runtime "Release"
 
+        
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
     objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
@@ -112,8 +112,6 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -126,16 +124,15 @@ project "Sandbox"
 
     filter "configurations:Debug"
         defines { "IG_CONFIG_DEBUG" }  
-        symbols "On"
-        buildoptions "/MDd"
+        symbols "on"
+        runtime "Debug"
 
     filter "configurations:Release"  
         defines { "IG_CONFIG_RELEASE" }    
-        optimize "On"
-        buildoptions "/MD"
+        optimize "on"
+        runtime "Release"
 
     filter "configurations:Dist"  
         defines { "IG_CONFIG_DIST" }    
-        optimize "On"
-        buildoptions "/MD"
-
+        optimize "on"
+        runtime "Release"

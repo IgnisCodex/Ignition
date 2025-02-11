@@ -9,7 +9,7 @@ public:
 	}
 
 	void OnEvent(Ignition::Events::Event& event) override {
-		IG_TRACE("{}", event.GetName());
+		//IG_TRACE("{}", event.GetName());
 	}
 };
 

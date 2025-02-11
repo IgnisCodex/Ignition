@@ -31,7 +31,7 @@ namespace Ignition {
 			std::string Title;
 			unsigned int Width = 0;
 			unsigned int Height = 0;
-			bool VSync;
+			bool VSync = true;
 			EventCallback EventCallback;
 		};
 
