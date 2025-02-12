@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Ignition/Window.hpp"
+#include "Ignition/Graphics/Context.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -37,5 +38,6 @@ namespace Ignition {
 
 		GLFWwindow* mWindow;
 		WindowData mWindowData;
+		Graphics::Context* mContext;
 	};
 }

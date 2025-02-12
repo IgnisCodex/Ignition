@@ -6,7 +6,7 @@
 #include "Ignition/Events/KeyboardEvent.hpp"
 #include "Ignition/Events/MouseEvent.hpp"
 
-#include <glad/glad.h>
+#include "Backends/OpenGL/OpenGLContext.hpp"
 
 namespace Ignition {
 
@@ -29,6 +29,8 @@ namespace Ignition {
 		mWindowData.Width = properties.Width;
 		mWindowData.Height = properties.Height;
 
+		
+
 		IG_CORE_INFO("Initalising Window: '{}' ({} x {})", properties.Title, properties.Width, properties.Height);
 
 		if (!IsGLFWInitalised) {
@@ -39,9 +41,10 @@ namespace Ignition {
 		}
 
 		mWindow = glfwCreateWindow((int)properties.Width, (int)properties.Height, properties.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(mWindow);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		IG_CORE_ASSERT(status, "Failed to Initialise GLAD!");
+
+		mContext = new OpenGLContext(mWindow);
+		mContext->Init();
+		
 		glfwSetWindowUserPointer(mWindow, &mWindowData);
 		SetVSync(true);
 
@@ -143,7 +146,7 @@ namespace Ignition {
 
 	void Window_Impl_Windows::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(mWindow);
+		mContext->SwapBuffers();
 	}
 
 	void Window_Impl_Windows::SetVSync(bool enabled) {
