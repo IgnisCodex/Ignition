@@ -7,6 +7,8 @@
 #include "Ignition/Core/LayerStack.hpp"
 #include "Ignition/Events/Event.hpp"
 #include "Ignition/Events/ApplicationEvent.hpp"
+#include "Ignition/Graphics/Buffers.hpp"
+#include "Ignition/Graphics/Shader.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
 
 namespace Ignition::Core {
@@ -29,6 +31,10 @@ namespace Ignition::Core {
 		bool OnWindowCloseEvent(Events::WindowCloseEvent& event);
 
 	private:
+		std::unique_ptr<Graphics::VertexBuffer> mVertexBuffer;
+		std::unique_ptr<Graphics::IndexBuffer> mIndexBuffer;
+		std::unique_ptr<Graphics::Shader> mShader;
+
 		std::unique_ptr<Window> mWindow;
 
 		UI::ImGuiLayer* mImGuiLayer;
@@ -36,6 +42,8 @@ namespace Ignition::Core {
 
 		bool mIsRunning = true;
 		bool mIsMinimized = false;
+
+		unsigned int mVertexArray;
 
 	private:
 		static Application* sInstance;

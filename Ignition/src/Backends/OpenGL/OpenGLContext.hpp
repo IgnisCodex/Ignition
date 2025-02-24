@@ -15,4 +15,4 @@ namespace Ignition {
 	private:
 		GLFWwindow* mWindowHandle;
 	};
-}
+}   
