@@ -66,7 +66,7 @@ namespace Ignition::Core {
 			}
 		)";
 
-		mShader.reset(new Graphics::Shader(vertexSrc, fragmentSrc));
+		mShader.reset(Graphics::Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {}

@@ -3,91 +3,22 @@
 #include "Ignition/Graphics/Shader.hpp"
 
 #include "Ignition/Log.hpp"
+#include "Ignition/Graphics/Renderer.hpp"
 
-#include <glad/glad.h>
+#include "Backends/OpenGL/OpenGLShader.hpp"
 
 namespace Ignition::Graphics {
-	Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc)
-		: mID(0)
-	{
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		const GLchar* src = vertexSrc.c_str();
-		glShaderSource(vertexShader, 1, &src, 0);
-		glCompileShader(vertexShader);
+	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc) {
+		switch (Renderer::GetAPI()) {
+		case API::None:
+			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
+			return nullptr;
 
-		GLint status = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-		if (status == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> log(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &log[0]);
-
-			glDeleteShader(vertexShader);
-			IG_CORE_CRITICAL("{}", log.data());
-			IG_CORE_ASSERT(false, "Vertex Shader Compilation Failed!");
-			return;
+		case API::OpenGL:
+			return new Backends::OpenGLShader(vertexSrc, fragmentSrc);
 		}
 
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		src = fragmentSrc.c_str();
-		glShaderSource(fragmentShader, 1, &src, 0);
-		glCompileShader(fragmentShader);
-
-		status = 0;
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-		if (status == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> log(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &log[0]);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			IG_CORE_CRITICAL("{}", log.data());
-			IG_CORE_ASSERT(false, "Fragment Shader Compilation Failed!");
-			return;
-		}
-
-		mID = glCreateProgram();
-
-		glAttachShader(mID, vertexShader);
-		glAttachShader(mID, fragmentShader);
-
-		glLinkProgram(mID);
-
-		status = 0;
-		glGetProgramiv(mID, GL_LINK_STATUS, &status);
-		if (status == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetProgramiv(mID, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> log(maxLength);
-			glGetProgramInfoLog(mID, maxLength, &maxLength, &log[0]);
-
-			glDeleteProgram(mID);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			IG_CORE_CRITICAL("{}", log.data());
-			IG_CORE_ASSERT(false, "Shader Linking Failed!");
-			return;
-		}
-
-		glDetachShader(mID, vertexShader);
-		glDetachShader(mID, fragmentShader);
-	}
-
-	Shader::~Shader() {
-		glDeleteProgram(mID);
-	}
-
-	void Shader::Bind() const {
-		glUseProgram(mID);
-	}
-
-	void Shader::Unbind() const {
-		glUseProgram(0);
+		IG_CORE_ASSERT(false, "Unknown Graphics API!");
+		return nullptr;
 	}
 }
