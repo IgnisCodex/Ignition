@@ -3,7 +3,7 @@
 #include "IGPCH.hpp"
 #include "Ignition/Events/Event.hpp"
 
-namespace Ignition {
+namespace Ignition::Core {
 	struct WindowProperties {
 		std::string Title;
 		unsigned int Width;

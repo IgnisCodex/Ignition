@@ -3,7 +3,7 @@
 #include "IGPCH.hpp"
 
 #include "Ignition/API.hpp"
-#include "Ignition/Window.hpp"
+#include "Ignition/Core/Window.hpp"
 #include "Ignition/Core/LayerStack.hpp"
 #include "Ignition/Events/Event.hpp"
 #include "Ignition/Events/ApplicationEvent.hpp"

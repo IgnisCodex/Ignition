@@ -11,12 +11,12 @@
 namespace Ignition {
 
 	static bool IsGLFWInitalised = false;
-
-	Window* Window::Create(const WindowProperties& properties) {
+	
+	Core::Window* Core::Window::Create(const Core::WindowProperties & properties) {
 		return new Window_Impl_Windows(properties);
 	}
 
-	Window_Impl_Windows::Window_Impl_Windows(const WindowProperties& properties) {
+	Window_Impl_Windows::Window_Impl_Windows(const Core::WindowProperties& properties) {
 		Init(properties);
 	}
 
@@ -24,12 +24,10 @@ namespace Ignition {
 		End();
 	}
 
-	void Window_Impl_Windows::Init(const WindowProperties& properties) {
+	void Window_Impl_Windows::Init(const Core::WindowProperties& properties) {
 		mWindowData.Title = properties.Title;
 		mWindowData.Width = properties.Width;
 		mWindowData.Height = properties.Height;
-
-		
 
 		IG_CORE_INFO("Initalising Window: '{}' ({} x {})", properties.Title, properties.Width, properties.Height);
 

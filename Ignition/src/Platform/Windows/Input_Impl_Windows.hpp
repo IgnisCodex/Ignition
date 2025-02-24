@@ -1,10 +1,10 @@
 #pragma once
 
 #include "IGPCH.hpp"
-#include "Ignition/Input.hpp"
+#include "Ignition/Core/Input.hpp"
 
 namespace Ignition {
-	class Input_Impl_Windows : public Input {
+	class Input_Impl_Windows : public Core::Input {
 	protected:
 		virtual bool IsKeyPressed_Impl(int keycode) override;
 		virtual bool IsMouseButtonPressed_Impl(int button) override;

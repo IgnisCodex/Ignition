@@ -2,9 +2,9 @@
 
 #include "IGPCH.hpp"
 
-#include "API.hpp"
+#include "Ignition/API.hpp"
 
-namespace Ignition {
+namespace Ignition::Core {
 	class IGNITION_API Input {
 	public:
 		inline static bool IsKeyPressed(int keycode) { return sInstance->IsKeyPressed_Impl(keycode); }

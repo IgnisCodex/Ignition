@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include "Ignition/Window.hpp"
+#include "Ignition/Core/Window.hpp"
 #include "Ignition/Graphics/Context.hpp"
 
 #include <GLFW/glfw3.h>
 
 namespace Ignition {
-	class Window_Impl_Windows : public Window {
+	class Window_Impl_Windows : public Core::Window {
 	public:
-		Window_Impl_Windows(const WindowProperties& properties);
+		Window_Impl_Windows(const Core::WindowProperties& properties);
 		virtual ~Window_Impl_Windows();
 
 		virtual void* GetNativeWindow() const { return mWindow; }
@@ -24,7 +24,7 @@ namespace Ignition {
 		void OnUpdate() override;
 
 	private:
-		virtual void Init(const WindowProperties& properties);
+		virtual void Init(const Core::WindowProperties& properties);
 		virtual void End();
 
 	private:

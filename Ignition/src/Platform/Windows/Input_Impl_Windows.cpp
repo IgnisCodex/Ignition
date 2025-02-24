@@ -8,7 +8,7 @@
 
 namespace Ignition {
 
-	Input* Input::sInstance = new Input_Impl_Windows();
+	Core::Input* Core::Input::sInstance = new Input_Impl_Windows();
 	
 	bool Input_Impl_Windows::IsKeyPressed_Impl(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Core::Application::Get().GetWindow().GetNativeWindow());
