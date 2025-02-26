@@ -6,7 +6,9 @@
 #include "Ignition/Events/Event.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
 
-#include <glad/glad.h>
+#include "Backends/OpenGL/OpenGLShader.hpp"
+
+//#include <glad/glad.h>
 
 namespace Ignition::Core {
 
@@ -25,16 +27,46 @@ namespace Ignition::Core {
 		glGenVertexArrays(1, &mVertexArray);
 		glBindVertexArray(mVertexArray);
 
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
+			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 1.0f, 1.0f
 		};
 
 		mVertexBuffer.reset(Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
+		
+		
+		{
+			Graphics::BufferLayout layout = {
+				{ Graphics::DataType::Vector3f,	"a_Position"	},
+				{ Graphics::DataType::Vector4f,	"a_Colour"		}
+			};
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+			mVertexBuffer->SetLayout(layout);
+		}
+
+		const auto& layout = mVertexBuffer->GetLayout();
+
+		uint32_t index = 0;
+		for (const auto& element : layout) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index,
+				element.GetComponentCount(),
+				Backends::DataTypetoOpenGLBaseType(element.Type),
+				element.Normalised ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)element.Offset
+			);
+			IG_CORE_TRACE("glVertexAttribPointer(index = {}, count = {}, type = 0x{:04x}, norm = {}, stride = {}, offset = {})", index,
+				element.GetComponentCount(),
+				Backends::DataTypetoOpenGLBaseType(element.Type),
+				element.Normalised, layout.GetStride(), element.Offset);
+			index++;
+		}
+
+		//glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		mIndexBuffer.reset(Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
@@ -43,13 +75,17 @@ namespace Ignition::Core {
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Colour;
 
 			out vec3 v_Position;
+			out vec4 v_Colour;
 
 			void main()
 			{
 				v_Position = a_Position;
+				v_Colour = a_Colour;
 				gl_Position = vec4(a_Position, 1.0);	
+				
 			}
 		)";
 
@@ -59,10 +95,12 @@ namespace Ignition::Core {
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
+			in vec4 v_Colour;
 
 			void main()
 			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = vec4(v_Position + 0.5, 1.0);
+				color = v_Colour;
 			}
 		)";
 
@@ -75,7 +113,7 @@ namespace Ignition::Core {
 		IG_CORE_INFO("Started!");
 
 		while (mIsRunning) {
-			glClearColor(1, 0, 0, 1);
+			glClearColor(0, 0, 0, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			mShader->Bind();
