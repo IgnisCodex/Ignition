@@ -1,6 +1,7 @@
 # Dirs
 build/
 .vs/
+.vscode/
 
 # Visual Studio Files
 *.sln
