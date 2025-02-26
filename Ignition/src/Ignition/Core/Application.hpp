@@ -9,6 +9,7 @@
 #include "Ignition/Events/ApplicationEvent.hpp"
 #include "Ignition/Graphics/Buffers.hpp"
 #include "Ignition/Graphics/Shader.hpp"
+#include "Ignition/Graphics/VertexArray.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
 
 namespace Ignition::Core {
@@ -31,9 +32,10 @@ namespace Ignition::Core {
 		bool OnWindowCloseEvent(Events::WindowCloseEvent& event);
 
 	private:
-		std::unique_ptr<Graphics::VertexBuffer> mVertexBuffer;
-		std::unique_ptr<Graphics::IndexBuffer> mIndexBuffer;
-		std::unique_ptr<Graphics::Shader> mShader;
+		std::shared_ptr<Graphics::VertexBuffer> mVertexBuffer;
+		std::shared_ptr<Graphics::VertexArray> mVertexArray;
+		std::shared_ptr<Graphics::IndexBuffer> mIndexBuffer;
+		std::shared_ptr<Graphics::Shader> mShader;
 
 		std::unique_ptr<Window> mWindow;
 
@@ -42,8 +44,6 @@ namespace Ignition::Core {
 
 		bool mIsRunning = true;
 		bool mIsMinimized = false;
-
-		unsigned int mVertexArray;
 
 	private:
 		static Application* sInstance;

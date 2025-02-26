@@ -24,9 +24,6 @@ namespace Ignition::Core {
 		mImGuiLayer = new UI::ImGuiLayer();
 		PushOverlay(mImGuiLayer);
 
-		glGenVertexArrays(1, &mVertexArray);
-		glBindVertexArray(mVertexArray);
-
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,
 			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
@@ -34,42 +31,18 @@ namespace Ignition::Core {
 		};
 
 		mVertexBuffer.reset(Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
-		
-		
-		{
-			Graphics::BufferLayout layout = {
-				{ Graphics::DataType::Vector3f,	"a_Position"	},
-				{ Graphics::DataType::Vector4f,	"a_Colour"		}
-			};
+		Graphics::BufferLayout layout = {
+			{ Graphics::DataType::Vector3f,	"a_Position"	},
+			{ Graphics::DataType::Vector4f,	"a_Colour"		}
+		};
+		mVertexBuffer->SetLayout(layout);
 
-			mVertexBuffer->SetLayout(layout);
-		}
-
-		const auto& layout = mVertexBuffer->GetLayout();
-
-		uint32_t index = 0;
-		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				Backends::DataTypetoOpenGLBaseType(element.Type),
-				element.Normalised ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset
-			);
-			IG_CORE_TRACE("glVertexAttribPointer(index = {}, count = {}, type = 0x{:04x}, norm = {}, stride = {}, offset = {})", index,
-				element.GetComponentCount(),
-				Backends::DataTypetoOpenGLBaseType(element.Type),
-				element.Normalised, layout.GetStride(), element.Offset);
-			index++;
-		}
-
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		mVertexArray.reset(Graphics::VertexArray::Create());
+		mVertexArray->AddVertexBuffer(mVertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		mIndexBuffer.reset(Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		mVertexArray->SetIndexBuffer(mIndexBuffer);
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -117,7 +90,7 @@ namespace Ignition::Core {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			mShader->Bind();
-			glBindVertexArray(mVertexArray);
+			mVertexArray->Bind();
 			glDrawElements(GL_TRIANGLES, mIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Core::Layer* layer : mLayerStack)
