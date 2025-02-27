@@ -1,5 +1,4 @@
 #include "IGPCH.hpp"
-
 #include "Backends/OpenGL/OpenGLVertexArray.hpp"
 
 #include "Ignition/Log.hpp"

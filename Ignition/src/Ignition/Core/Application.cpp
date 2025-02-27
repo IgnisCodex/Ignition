@@ -4,11 +4,12 @@
 
 #include "Ignition/Log.hpp"
 #include "Ignition/Events/Event.hpp"
+#include "Ignition/Graphics/RenderCall.hpp"
+#include "Ignition/Graphics/Renderer.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
+#include "Ignition/Util/Util.hpp"
 
 #include "Backends/OpenGL/OpenGLShader.hpp"
-
-//#include <glad/glad.h>
 
 namespace Ignition::Core {
 
@@ -85,13 +86,18 @@ namespace Ignition::Core {
 	void Application::Run() {
 		IG_CORE_INFO("Started!");
 
-		while (mIsRunning) {
-			glClearColor(0, 0, 0, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+		Graphics::RenderCall::Clear(rgb(96, 71, 129));
 
-			mShader->Bind();
-			mVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, mIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+		while (mIsRunning) {
+
+			Graphics::RenderCall::Clear();
+
+			if (Graphics::Renderer::SceneBegin()) {
+				mShader->Bind();
+                Graphics::Renderer::Submit(mVertexArray);
+
+				Graphics::Renderer::SceneEnd();
+			}
 
 			for (Core::Layer* layer : mLayerStack)
 				layer->OnUpdate();

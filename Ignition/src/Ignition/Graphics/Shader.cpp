@@ -10,11 +10,11 @@
 namespace Ignition::Graphics {
 	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc) {
 		switch (Renderer::GetAPI()) {
-		case API::None:
+		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
 			return nullptr;
 
-		case API::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new Backends::OpenGLShader(vertexSrc, fragmentSrc);
 		}
 

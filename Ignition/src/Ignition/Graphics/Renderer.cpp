@@ -3,5 +3,22 @@
 #include "Ignition/Graphics/Renderer.hpp"
 
 namespace Ignition::Graphics {
-	API Renderer::sAPI = API::OpenGL;
+	// =================================*
+	// Scenes							|
+	// =================================*
+	bool Renderer::SceneBegin() {
+		return true;
+	}
+
+	void Renderer::SceneEnd() {
+
+	}
+
+	// =================================*
+	// Submit							|
+	// =================================*
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray) {
+		vertexArray->Bind();
+		RenderCall::DrawIndexed(vertexArray);
+	}
 }

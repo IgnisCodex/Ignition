@@ -4,17 +4,18 @@
 
 #include "Ignition/Log.hpp"
 #include "Ignition/Graphics/Renderer.hpp"
+#include "Ignition/Graphics/RendererAPI.hpp"
 
 #include "Backends/OpenGL/OpenGLVertexArray.hpp"
 
 namespace Ignition::Graphics {
 	VertexArray* VertexArray::Create() {
 		switch (Renderer::GetAPI()) {
-		case API::None:
+		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
 			return nullptr;
 
-		case API::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new Backends::OpenGLVertexArray();
 		}
 

@@ -1,15 +1,16 @@
 #pragma once
 
-namespace Ignition::Graphics {
-	enum class API {
-		None = 0,
-		OpenGL = 1
-	};
+#include "Ignition/Graphics/RendererAPI.hpp"
+#include "Ignition/Graphics/RenderCall.hpp"
 
+namespace Ignition::Graphics {
 	class Renderer {
 	public:
-		inline static API GetAPI() { return sAPI; }
-	private:
-		static API sAPI;
+		static bool SceneBegin();
+		static void SceneEnd();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 }
