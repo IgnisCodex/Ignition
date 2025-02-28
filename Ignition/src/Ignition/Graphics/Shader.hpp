@@ -2,6 +2,8 @@
 
 #include "Ignition/Log.hpp"
 
+#include <glm/glm.hpp>
+
 namespace Ignition::Graphics {
 
 	enum class DataType {
@@ -61,6 +63,15 @@ namespace Ignition::Graphics {
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
+
+		// ---- Uniform Uploads ------------+
+		virtual void UploadFloat(const std::string& name, float value) const = 0;
+		virtual void UploadVector2f(const std::string& name, const glm::vec2& vec2f) const = 0;
+		virtual void UploadVector3f(const std::string& name, const glm::vec3& vec3f) const = 0;
+		virtual void UploadVector4f(const std::string& name, const glm::vec4& vec4f) const = 0;
+
+		virtual void UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const = 0;
+		virtual void UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const = 0;
 
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 	};

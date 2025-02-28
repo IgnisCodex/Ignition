@@ -3,6 +3,10 @@
 #include "IGPCH.hpp"
 #include "Ignition/API.hpp"
 
+#include "Ignition/Events/ApplicationEvent.hpp"
+#include "Ignition/Events/KeyboardEvent.hpp"
+#include "Ignition/Events/MouseEvent.hpp"
+
 namespace Ignition::Events {
 
 	enum class EventType {

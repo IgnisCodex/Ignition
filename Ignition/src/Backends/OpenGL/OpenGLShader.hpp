@@ -3,6 +3,7 @@
 #include "Ignition/Log.hpp"
 #include "Ignition/Graphics/Shader.hpp"
 
+#include <glm/glm.hpp>
 #include <glad/glad.h>
 
 namespace Ignition::Backends {
@@ -14,6 +15,15 @@ namespace Ignition::Backends {
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		// ---- Uniform Uploads ------------+
+		virtual void UploadFloat(const std::string& name, float value) const override;
+		virtual void UploadVector2f(const std::string& name, const glm::vec2& vec2f) const override;
+		virtual void UploadVector3f(const std::string& name, const glm::vec3& vec3f) const override;
+		virtual void UploadVector4f(const std::string& name, const glm::vec4& vec4f) const override;
+
+		virtual void UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const override;
+		virtual void UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const override;
 
 	private:
 		uint32_t mRendererID;

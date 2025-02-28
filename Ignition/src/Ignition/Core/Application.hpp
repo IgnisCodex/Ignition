@@ -8,6 +8,7 @@
 #include "Ignition/Events/Event.hpp"
 #include "Ignition/Events/ApplicationEvent.hpp"
 #include "Ignition/Graphics/Buffers.hpp"
+#include "Ignition/Graphics/Camera.hpp"
 #include "Ignition/Graphics/Shader.hpp"
 #include "Ignition/Graphics/VertexArray.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
@@ -36,6 +37,8 @@ namespace Ignition::Core {
 		std::shared_ptr<Graphics::VertexArray> mVertexArray;
 		std::shared_ptr<Graphics::IndexBuffer> mIndexBuffer;
 		std::shared_ptr<Graphics::Shader> mShader;
+
+		Graphics::OrthoCamera mOrthoCamera;
 
 		std::unique_ptr<Window> mWindow;
 

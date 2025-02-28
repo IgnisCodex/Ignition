@@ -4,6 +4,7 @@
 
 #include "Ignition/Log.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
 namespace Ignition::Backends {
@@ -78,15 +79,46 @@ namespace Ignition::Backends {
 		glDetachShader(mRendererID, fragmentShader);
 	}
 
+	// ---- Uniform Uploads ------------+
+	void OpenGLShader::UploadFloat(const std::string& name, float value) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform1f(location, value);
+	}
+
+	void OpenGLShader::UploadVector2f(const std::string& name, const glm::vec2& vec2f) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform2f(location, vec2f.x, vec2f.y);
+	}
+
+	void OpenGLShader::UploadVector3f(const std::string& name, const glm::vec3& vec3f) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform3f(location, vec3f.x, vec3f.y, vec3f.z);
+	}
+
+	void OpenGLShader::UploadVector4f(const std::string& name, const glm::vec4& vec4f) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform4f(location, vec4f.x, vec4f.y, vec4f.z, vec4f.w);
+	}
+
+	void OpenGLShader::UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(mat3f));
+	}
+
+	void OpenGLShader::UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const  {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4f));
+	}
+
 	OpenGLShader::~OpenGLShader() {
 		glDeleteProgram(mRendererID);
 	}
 
-	void OpenGLShader::Bind() const {
+	void OpenGLShader::OpenGLShader::Bind() const {
 		glUseProgram(mRendererID);
 	}
 
-	void OpenGLShader::Unbind() const {
+	void OpenGLShader::OpenGLShader::Unbind() const {
 		glUseProgram(0);
 	}
 }
