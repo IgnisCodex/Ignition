@@ -4,6 +4,7 @@
 
 #include "Ignition/API.hpp"
 #include "Ignition/Events/Event.hpp"
+#include "Ignition/Util/Time.hpp"
 
 namespace Ignition::Core {
 	class IGNITION_API Layer {
@@ -13,7 +14,7 @@ namespace Ignition::Core {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Util::DeltaTime dt) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Events::Event& event) {}
 

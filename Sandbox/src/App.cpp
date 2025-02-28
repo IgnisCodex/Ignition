@@ -5,6 +5,7 @@ public:
 	ExampleLayer()
 		: mOrthoCamera(-1.6f, 1.6f, -0.9f, 0.9f)
 		, Layer("Example")
+		, mOrthoCameraPosition(0.0f)
 	{
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,
@@ -64,9 +65,23 @@ public:
 		mShader.reset(Ignition::Graphics::Shader::Create(vertexSrc, fragmentSrc));
 	}
 
-	void OnUpdate() override {
-		mOrthoCamera.SetPosition({ 0.5f, 0.5f, 0.0f });
-		mOrthoCamera.SetRotation(35);
+	void OnUpdate(Ignition::Util::DeltaTime dt) override {
+		IG_TRACE("DeltaTime:\t{}s\t({}ms)", dt.s(), dt.ms());
+
+		if (Ignition::Core::Input::IsKeyPressed(IG_KEY_W)) {
+			mOrthoCameraPosition.y -= mOrthoCameraSpeed * dt.s();
+		
+		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_A)) {
+			mOrthoCameraPosition.x += mOrthoCameraSpeed * dt.s();
+		
+		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_S)) {
+			mOrthoCameraPosition.y += mOrthoCameraSpeed * dt.s();
+		
+		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_D)) {
+			mOrthoCameraPosition.x -= mOrthoCameraSpeed * dt.s();
+		}
+
+		mOrthoCamera.SetPosition(mOrthoCameraPosition);
 
 		if (Ignition::Graphics::Renderer::SceneBegin(mOrthoCamera)) {
 			//mShader->Bind();
@@ -78,7 +93,7 @@ public:
 	}
 
 	void OnEvent(Ignition::Events::Event& event) override {
-		//IG_TRACE("{}", event.GetName());
+		
 	}
 
 private:
@@ -88,6 +103,8 @@ private:
 	std::shared_ptr<Ignition::Graphics::Shader> mShader;
 
 	Ignition::Graphics::OrthoCamera mOrthoCamera;
+	glm::vec3 mOrthoCameraPosition;
+	float mOrthoCameraSpeed = 3.0f;
 };
 
 class Sandbox : public Ignition::Core::Application {

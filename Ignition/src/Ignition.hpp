@@ -18,6 +18,10 @@
 #include "Ignition/Graphics/VertexArray.hpp"
 
 #include "Ignition/Events/Event.hpp"
+#include "Ignition/Events/ApplicationEvent.hpp"
+#include "Ignition/Events/KeyboardEvent.hpp"
+#include "Ignition/Events/MouseEvent.hpp"
+
 #include "Ignition/UI/ImGuiLayer.hpp"
 #include "Ignition/Util/Colour.hpp"
 

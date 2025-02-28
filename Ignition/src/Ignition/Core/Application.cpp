@@ -7,9 +7,12 @@
 #include "Ignition/Graphics/RenderCall.hpp"
 #include "Ignition/Graphics/Renderer.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
+#include "Ignition/Util/Time.hpp"
 #include "Ignition/Util/Util.hpp"
 
 #include "Backends/OpenGL/OpenGLShader.hpp"
+
+#include <GLFW/glfw3.h>
 
 namespace Ignition::Core {
 
@@ -36,10 +39,19 @@ namespace Ignition::Core {
 
 		while (mIsRunning) {
 
+			float time = (float)glfwGetTime();
+			Util::DeltaTime dt = time - mPreviousFrameTime;
+			mPreviousFrameTime = time;
+
+
+
+
+
+
 			Graphics::RenderCall::Clear();
 
 			for (Core::Layer* layer : mLayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(dt);
 
 			mImGuiLayer->Begin();
 			for (Core::Layer* layer : mLayerStack)

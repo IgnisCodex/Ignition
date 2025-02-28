@@ -12,6 +12,7 @@
 #include "Ignition/Graphics/Shader.hpp"
 #include "Ignition/Graphics/VertexArray.hpp"
 #include "Ignition/UI/ImGuiLayer.hpp"
+#include "Ignition/Util/Time.hpp"
 
 namespace Ignition::Core {
 	class IGNITION_API Application {
@@ -40,6 +41,8 @@ namespace Ignition::Core {
 
 		bool mIsRunning = true;
 		bool mIsMinimized = false;
+
+		float mPreviousFrameTime = 0.0f;
 
 	private:
 		static Application* sInstance;
