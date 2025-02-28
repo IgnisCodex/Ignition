@@ -33,13 +33,6 @@ namespace Ignition::Core {
 		bool OnWindowCloseEvent(Events::WindowCloseEvent& event);
 
 	private:
-		std::shared_ptr<Graphics::VertexBuffer> mVertexBuffer;
-		std::shared_ptr<Graphics::VertexArray> mVertexArray;
-		std::shared_ptr<Graphics::IndexBuffer> mIndexBuffer;
-		std::shared_ptr<Graphics::Shader> mShader;
-
-		Graphics::OrthoCamera mOrthoCamera;
-
 		std::unique_ptr<Window> mWindow;
 
 		UI::ImGuiLayer* mImGuiLayer;

@@ -15,9 +15,7 @@ namespace Ignition::Core {
 
 	Application* Application::sInstance = nullptr;
 
-	Application::Application()
-		: mOrthoCamera(-1.6f, 1.6f, -0.9f, 0.9f)
-	{
+	Application::Application() {
 		IG_CORE_ASSERT(!sInstance, "Application Instance Already Exists!");
 		sInstance = this;
 
@@ -26,63 +24,6 @@ namespace Ignition::Core {
 
 		mImGuiLayer = new UI::ImGuiLayer();
 		PushOverlay(mImGuiLayer);
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,
-			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 1.0f, 1.0f
-		};
-
-		mVertexBuffer.reset(Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
-		Graphics::BufferLayout layout = {
-			{ Graphics::DataType::Vector3f,	"a_Position"	},
-			{ Graphics::DataType::Vector4f,	"a_Colour"		}
-		};
-		mVertexBuffer->SetLayout(layout);
-
-		mVertexArray.reset(Graphics::VertexArray::Create());
-		mVertexArray->AddVertexBuffer(mVertexBuffer);
-
-		uint32_t indices[3] = { 0, 1, 2 };
-		mIndexBuffer.reset(Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		mVertexArray->SetIndexBuffer(mIndexBuffer);
-
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Colour;
-
-			uniform mat4 u_ViewProjection;
-
-			out vec3 v_Position;
-			out vec4 v_Colour;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Colour = a_Colour;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
-				
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-			in vec4 v_Colour;
-
-			void main()
-			{
-				color = vec4(v_Position + 0.5, 1.0);
-				color = v_Colour;
-			}
-		)";
-
-		mShader.reset(Graphics::Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {}
@@ -96,17 +37,6 @@ namespace Ignition::Core {
 		while (mIsRunning) {
 
 			Graphics::RenderCall::Clear();
-
-			mOrthoCamera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			mOrthoCamera.SetRotation(35);
-
-			if (Graphics::Renderer::SceneBegin(mOrthoCamera)) {
-				//mShader->Bind();
-				//mShader->UploadMatrix4f("u_ViewProjection", mOrthoCamera.GetViewProjectionMatrix());
-                Graphics::Renderer::Submit(mShader, mVertexArray);
-
-				Graphics::Renderer::SceneEnd();
-			}
 
 			for (Core::Layer* layer : mLayerStack)
 				layer->OnUpdate();
