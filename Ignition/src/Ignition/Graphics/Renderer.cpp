@@ -25,9 +25,10 @@ namespace Ignition::Graphics {
 	// =================================*
 	// Submit							|
 	// =================================*
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray) {
+	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform) {
 		shader->Bind();
 		shader->UploadMatrix4f("u_ViewProjection", mScene->ViewProjectionMatrix);
+		shader->UploadMatrix4f("u_Transform", transform);
 
 		vertexArray->Bind();
 		RenderCall::DrawIndexed(vertexArray);

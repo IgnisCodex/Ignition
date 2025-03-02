@@ -32,20 +32,15 @@ namespace Ignition::Core {
 	Application::~Application() {}
 
 	void Application::Run() {
-		IG_CORE_INFO("Started!");
+		IG_CORE_INFO("Ignition Engine v0.1");
 
-		Graphics::RenderCall::Clear(rgb(96, 71, 129));
-
+		Graphics::RenderCall::Clear(rgb(65, 65, 65));
 
 		while (mIsRunning) {
 
 			float time = (float)glfwGetTime();
 			Util::DeltaTime dt = time - mPreviousFrameTime;
 			mPreviousFrameTime = time;
-
-
-
-
 
 
 			Graphics::RenderCall::Clear();

@@ -1,4 +1,7 @@
 #include <Ignition.hpp>
+#include <Ignition/Util/Util.hpp>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Ignition::Core::Layer {
 public:
@@ -6,11 +9,18 @@ public:
 		: mOrthoCamera(-1.6f, 1.6f, -0.9f, 0.9f)
 		, Layer("Example")
 		, mOrthoCameraPosition(0.0f)
+		, mTriPosition(0.0f)
 	{
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,
-			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 1.0f, 1.0f
+		IGColour colour1(rgb(26, 0, 165));
+		IGColour colour4(rgb(30, 187, 22));
+		IGColour colour3(rgb(252, 222, 10));
+		IGColour colour2(rgb(240, 0, 22));
+
+		float vertices[4 * 7] = {
+			-0.5f, -0.5f, 0.0f,		colour1.r, colour1.g, colour1.b, 1.0f,
+			 0.5f, -0.5f, 0.0f,		colour2.r, colour2.g, colour2.b, 1.0f,
+			 0.5f,  0.5f, 0.0f,		colour3.r, colour3.g, colour3.b, 1.0f,
+			-0.5f,  0.5f, 0.0f,		colour4.r, colour4.g, colour4.b, 1.0f
 		};
 
 		mVertexBuffer.reset(Ignition::Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
@@ -23,7 +33,7 @@ public:
 		mVertexArray.reset(Ignition::Graphics::VertexArray::Create());
 		mVertexArray->AddVertexBuffer(mVertexBuffer);
 
-		uint32_t indices[3] = { 0, 1, 2 };
+		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
 		mIndexBuffer.reset(Ignition::Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		mVertexArray->SetIndexBuffer(mIndexBuffer);
 
@@ -34,6 +44,7 @@ public:
 			layout(location = 1) in vec4 a_Colour;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Colour;
@@ -42,7 +53,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Colour = a_Colour;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 				
 			}
 		)";
@@ -66,18 +77,18 @@ public:
 	}
 
 	void OnUpdate(Ignition::Util::DeltaTime dt) override {
-		IG_TRACE("DeltaTime:\t{}s\t({}ms)", dt.s(), dt.ms());
 
 		if (Ignition::Core::Input::IsKeyPressed(IG_KEY_W)) {
-			mOrthoCameraPosition.y -= mOrthoCameraSpeed * dt.s();
-		
-		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_A)) {
-			mOrthoCameraPosition.x += mOrthoCameraSpeed * dt.s();
-		
-		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_S)) {
 			mOrthoCameraPosition.y += mOrthoCameraSpeed * dt.s();
 		
-		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_D)) {
+		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_S)) {
+			mOrthoCameraPosition.y -= mOrthoCameraSpeed * dt.s();
+		}
+		
+		if (Ignition::Core::Input::IsKeyPressed(IG_KEY_D)) {
+			mOrthoCameraPosition.x += mOrthoCameraSpeed * dt.s();
+		
+		} else if (Ignition::Core::Input::IsKeyPressed(IG_KEY_A)) {
 			mOrthoCameraPosition.x -= mOrthoCameraSpeed * dt.s();
 		}
 
@@ -86,7 +97,16 @@ public:
 		if (Ignition::Graphics::Renderer::SceneBegin(mOrthoCamera)) {
 			//mShader->Bind();
 			//mShader->UploadMatrix4f("u_ViewProjection", mOrthoCamera.GetViewProjectionMatrix());
-			Ignition::Graphics::Renderer::Submit(mShader, mVertexArray);
+
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+
+			for (int y = 0; y < 20; y++) {
+				for (int x = 0; x < 20; x++) {
+					glm::vec3 pos(x * 0.51f, y * 0.51f, 0.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+					Ignition::Graphics::Renderer::Submit(mShader, mVertexArray, transform);
+				}
+			}
 
 			Ignition::Graphics::Renderer::SceneEnd();
 		}
@@ -105,6 +125,8 @@ private:
 	Ignition::Graphics::OrthoCamera mOrthoCamera;
 	glm::vec3 mOrthoCameraPosition;
 	float mOrthoCameraSpeed = 3.0f;
+
+	glm::vec3 mTriPosition;
 };
 
 class Sandbox : public Ignition::Core::Application {
