@@ -13,16 +13,16 @@ namespace Ignition::Backends {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void AddVertexBuffer(const std::shared_ptr<Graphics::VertexBuffer>& vertexBuffer) override;
-		virtual void SetIndexBuffer(const std::shared_ptr<Graphics::IndexBuffer>& indexBuffer) override;
+		virtual void AddVertexBuffer(const Ref<Graphics::VertexBuffer>& vertexBuffer) override;
+		virtual void SetIndexBuffer(const Ref<Graphics::IndexBuffer>& indexBuffer) override;
 
-		virtual const std::vector<std::shared_ptr<Graphics::VertexBuffer>>& GetVertexBuffers() const { return mVertexBuffers; };
-		virtual const std::shared_ptr<Graphics::IndexBuffer>& GetIndexBuffer() const { return mIndexBuffer; };
+		virtual const std::vector<Ref<Graphics::VertexBuffer>>& GetVertexBuffers() const { return mVertexBuffers; };
+		virtual const Ref<Graphics::IndexBuffer>& GetIndexBuffer() const { return mIndexBuffer; };
 
 	private:
 		uint32_t mRendererID;
 
-		std::vector<std::shared_ptr<Graphics::VertexBuffer>> mVertexBuffers;
-		std::shared_ptr<Graphics::IndexBuffer> mIndexBuffer;
+		std::vector<Ref<Graphics::VertexBuffer>> mVertexBuffers;
+		Ref<Graphics::IndexBuffer> mIndexBuffer;
 	};
 }

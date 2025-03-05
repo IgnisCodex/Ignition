@@ -8,6 +8,6 @@ namespace Ignition::Backends {
 		virtual void Clear() override;
 		virtual void Clear(const glm::vec4& colour) override;
 
-		virtual void DrawIndexed(const std::shared_ptr<Graphics::VertexArray>& vertexArray) override;
+		virtual void DrawIndexed(const Ref<Graphics::VertexArray>& vertexArray) override;
 	};
 }
