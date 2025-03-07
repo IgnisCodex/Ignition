@@ -10,6 +10,7 @@ namespace Ignition::Backends {
 	
 	class OpenGLShader : public Graphics::Shader {
 	public:
+		OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
@@ -25,6 +26,11 @@ namespace Ignition::Backends {
 
 		virtual void UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const override;
 		virtual void UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const override;
+
+	private:
+		std::string ReadFile(const std::string& filepath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& src);
+		void Compile(const std::unordered_map<GLenum, std::string>& srcs);
 
 	private:
 		uint32_t mRendererID;

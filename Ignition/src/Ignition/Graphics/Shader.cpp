@@ -8,6 +8,20 @@
 #include "Backends/OpenGL/OpenGLShader.hpp"
 
 namespace Ignition::Graphics {
+	Shader* Shader::Create(const std::string& filepath) {
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:
+			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
+			return nullptr;
+
+		case RendererAPI::API::OpenGL:
+			return new Backends::OpenGLShader(filepath);
+		}
+
+		IG_CORE_ASSERT(false, "Unknown Graphics API!");
+		return nullptr;
+	}
+
 	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:

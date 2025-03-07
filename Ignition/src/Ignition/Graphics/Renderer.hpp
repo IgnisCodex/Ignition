@@ -10,6 +10,8 @@
 namespace Ignition::Graphics {
 	class Renderer {
 	public:
+		static void Init();
+		
 		static bool SceneBegin(OrthoCamera& camera);
 		static void SceneEnd();
 

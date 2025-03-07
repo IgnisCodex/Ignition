@@ -74,6 +74,7 @@ namespace Ignition::Graphics {
 		virtual void UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const = 0;
 		virtual void UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const = 0;
 
+		static Shader* Create(const std::string& filepath);
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
 }

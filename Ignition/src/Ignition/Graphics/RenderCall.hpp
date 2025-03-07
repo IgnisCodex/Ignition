@@ -5,6 +5,10 @@
 namespace Ignition::Graphics {
 	class RenderCall {
 	public:
+		inline static void Init() {
+			sRendererAPI->Init();
+		}
+
 		inline static void Clear(const glm::vec4 colour) {
 			sRendererAPI->Clear(colour);
 		}

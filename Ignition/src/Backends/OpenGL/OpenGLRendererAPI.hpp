@@ -5,6 +5,7 @@
 namespace Ignition::Backends {
 	class OpenGLRendererAPI : public Graphics::RendererAPI {
 	public:
+		virtual void Init() override;
 		virtual void Clear() override;
 		virtual void Clear(const glm::vec4& colour) override;
 

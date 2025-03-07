@@ -4,6 +4,10 @@
 #include "Ignition/Log.hpp"
 
 namespace Ignition::Graphics {
+	void Renderer::Init() {
+		RenderCall::Init();
+	}
+
 	// =================================*
 	// Scenes							|
 	// =================================*

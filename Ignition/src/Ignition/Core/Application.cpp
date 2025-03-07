@@ -25,6 +25,8 @@ namespace Ignition::Core {
 		mWindow = std::unique_ptr<Window>(Window::Create());
 		mWindow->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
+		Graphics::Renderer::Init();
+
 		mImGuiLayer = new UI::ImGuiLayer();
 		PushOverlay(mImGuiLayer);
 	}
