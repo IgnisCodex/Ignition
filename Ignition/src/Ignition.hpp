@@ -15,6 +15,7 @@
 #include "Ignition/Graphics/Renderer.hpp"
 #include "Ignition/Graphics/RendererAPI.hpp"
 #include "Ignition/Graphics/Shader.hpp"
+#include "Ignition/Graphics/Texture.hpp"
 #include "Ignition/Graphics/VertexArray.hpp"
 
 #include "Ignition/Events/Event.hpp"

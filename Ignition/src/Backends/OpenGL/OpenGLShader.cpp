@@ -80,6 +80,11 @@ namespace Ignition::Backends {
 	}
 
 	// ---- Uniform Uploads ------------+
+	void OpenGLShader::UploadInt(const std::string& name, int value) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform1i(location, value);
+	}
+
 	void OpenGLShader::UploadFloat(const std::string& name, float value) const {
 		GLint location = glGetUniformLocation(mRendererID, name.c_str());
 		glUniform1f(location, value);

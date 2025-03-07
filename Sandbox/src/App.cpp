@@ -11,16 +11,17 @@ public:
 		, mOrthoCameraPosition(0.0f)
 		, mTriPosition(0.0f)
 	{
-		float vertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f,
+		float vertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		mVertexBuffer.reset(Ignition::Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Ignition::Graphics::BufferLayout layout = {
-			{ Ignition::Graphics::DataType::Vector3f,	"a_Position"	}
+			{ Ignition::Graphics::DataType::Vector3f,	"a_Position"	},
+			{ Ignition::Graphics::DataType::Vector2f,	"a_TexCoords"	}
 		};
 		mVertexBuffer->SetLayout(layout);
 
@@ -67,6 +68,48 @@ public:
 		)";
 
 		mFlatColourShader.reset(Ignition::Graphics::Shader::Create(flatColourVertexShaderSrc, flatColourFragmentShaderSrc));
+
+
+		std::string textureVertexShaderSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoords;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoords;
+
+			void main()
+			{
+				v_TexCoords = a_TexCoords;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+				
+			}
+		)";
+
+		std::string textureFragmentShaderSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			
+			uniform sampler2D u_Texture;
+
+			in vec2 v_TexCoords;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoords);
+			}
+		)";
+
+		mTextureShader.reset(Ignition::Graphics::Shader::Create(textureVertexShaderSrc, textureFragmentShaderSrc));
+
+		mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
+
+		mTextureShader->Bind();
+		mTextureShader->UploadInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Ignition::Util::DeltaTime dt) override {
@@ -93,20 +136,8 @@ public:
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 
-			IGColour colourB(rgb(255, 0, 165));
-			IGColour colourG(rgb(0, 255, 0));
-
-			for (int y = 0; y < 20; y++) {
-				for (int x = 0; x < 20; x++) {
-					glm::vec3 pos(x * 0.51f, y * 0.51f, 0.0f);
-					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-					if (x % 2 == 0)
-						mFlatColourShader->UploadVector4f("u_Colour", colourG);
-					else
-						mFlatColourShader->UploadVector4f("u_Colour", colourB);
-					Ignition::Graphics::Renderer::Submit(mFlatColourShader, mVertexArray, transform);
-				}
-			}
+			mTexture->Bind();
+			Ignition::Graphics::Renderer::Submit(mTextureShader, mVertexArray);
 
 			Ignition::Graphics::Renderer::SceneEnd();
 		}
@@ -120,7 +151,9 @@ private:
 	Ignition::Ref<Ignition::Graphics::VertexBuffer> mVertexBuffer;
 	Ignition::Ref<Ignition::Graphics::VertexArray> mVertexArray;
 	Ignition::Ref<Ignition::Graphics::IndexBuffer> mIndexBuffer;
-	Ignition::Ref<Ignition::Graphics::Shader> mFlatColourShader;
+	Ignition::Ref<Ignition::Graphics::Shader> mFlatColourShader, mTextureShader;
+
+	Ignition::Ref<Ignition::Graphics::Texture2D> mTexture;
 
 	Ignition::Graphics::OrthoCamera mOrthoCamera;
 	glm::vec3 mOrthoCameraPosition;

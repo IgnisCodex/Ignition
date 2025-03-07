@@ -12,6 +12,7 @@ INCLUDE_DIR["GLFW"] = "Ignition/vendor/GLFW/include"
 INCLUDE_DIR["GLAD"] = "Ignition/vendor/GLAD/include"
 INCLUDE_DIR["ImGui"] = "Ignition/vendor/imgui"
 INCLUDE_DIR["GLM"] = "Ignition/vendor/glm"
+INCLUDE_DIR["STB"] = "Ignition/vendor/stb/include"
 
 include "Ignition/vendor/GLFW"
 include "Ignition/vendor/GLAD"
@@ -32,7 +33,9 @@ project "Ignition"
 
     files {
         "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{INCLUDE_DIR.STB}/**.h",
+        "%{INCLUDE_DIR.STB}/**.cpp",
     }
 
     includedirs {
@@ -42,6 +45,7 @@ project "Ignition"
         "%{INCLUDE_DIR.GLAD}",
         "%{INCLUDE_DIR.ImGui}",
         "%{INCLUDE_DIR.GLM}",
+        "%{INCLUDE_DIR.STB}",
     }
 
     links {

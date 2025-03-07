@@ -17,6 +17,7 @@ namespace Ignition::Backends {
 		virtual void Unbind() const override;
 
 		// ---- Uniform Uploads ------------+
+		virtual void UploadInt(const std::string& name, int value) const override;
 		virtual void UploadFloat(const std::string& name, float value) const override;
 		virtual void UploadVector2f(const std::string& name, const glm::vec2& vec2f) const override;
 		virtual void UploadVector3f(const std::string& name, const glm::vec3& vec3f) const override;
