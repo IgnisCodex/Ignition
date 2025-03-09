@@ -7,7 +7,7 @@
 namespace Ignition::Graphics {
 	OrthoCameraContr::OrthoCameraContr(float aspectRatio, bool enableRotation)
 		: mAspectRatio(aspectRatio)
-		, mCamera(-mAspectRatio * mZoom, mAspectRatio* mZoom, -mZoom, mZoom)
+		, mCamera(-mAspectRatio * mZoom, mAspectRatio * mZoom, -mZoom, mZoom)
 		, mEnableRotation(enableRotation)
 	{}
 
@@ -55,7 +55,7 @@ namespace Ignition::Graphics {
 	}
 
 	bool OrthoCameraContr::OnWindowResize(Events::WindowResizeEvent& event) {
-		mAspectRatio -= (float)event.GetWidth() / (float)event.GetHeight();
+		mAspectRatio = (float)event.GetWidth() / (float)event.GetHeight();
 		mCamera.SetProjectionMatrix(-mAspectRatio * mZoom, mAspectRatio * mZoom, -mZoom, mZoom);
 		return false;
 	}
