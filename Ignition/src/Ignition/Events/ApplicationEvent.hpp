@@ -15,9 +15,7 @@ namespace Ignition::Events {
 		WindowResizeEvent(unsigned int width, unsigned int height)
 			: mWidth(width)
 			, mHeight(height)
-		{
-			IG_CORE_WARN("{}, {}", width, height);
-		}
+		{}
 
 		inline std::string GetName() const override {
 			std::stringstream ss;

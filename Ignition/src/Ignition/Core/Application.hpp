@@ -32,6 +32,7 @@ namespace Ignition::Core {
 
 	private:
 		bool OnWindowCloseEvent(Events::WindowCloseEvent& event);
+		bool OnWindowResize(Events::WindowResizeEvent& event);
 
 	private:
 		std::unique_ptr<Window> mWindow;

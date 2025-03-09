@@ -21,6 +21,11 @@ namespace Ignition::Graphics {
 			sRendererAPI->DrawIndexed(vertexArray);
 		}
 
+
+		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+			sRendererAPI->SetViewport(x, y, width, height);
+		}
+
 	private:
 		static RendererAPI* sRendererAPI;
 	};

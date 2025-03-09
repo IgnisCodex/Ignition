@@ -40,6 +40,8 @@ public:
 
 	void OnUpdate(Ignition::Util::DeltaTime dt) override {
 
+		Ignition::Graphics::RenderCall::Clear(rgb(65, 65, 65));
+
 		mOrthoCameraContr.OnUpdate(dt);
 
 		if (Ignition::Graphics::Renderer::SceneBegin(mOrthoCameraContr.GetCamera())) {

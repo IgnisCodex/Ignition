@@ -27,6 +27,13 @@ namespace Ignition::Graphics {
 	}
 
 	// =================================*
+	// Events							|
+	// =================================*
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height) {
+		RenderCall::SetViewport(0, 0, width, height);
+	}
+
+	// =================================*
 	// Submit							|
 	// =================================*
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform) {

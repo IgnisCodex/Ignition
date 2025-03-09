@@ -36,19 +36,16 @@ namespace Ignition::Core {
 	void Application::Run() {
 		IG_CORE_INFO("Ignition Engine v0.1");
 
-		Graphics::RenderCall::Clear(rgb(65, 65, 65));
-
 		while (mIsRunning) {
 
 			float time = (float)glfwGetTime();
 			Util::DeltaTime dt = time - mPreviousFrameTime;
 			mPreviousFrameTime = time;
 
-
-			Graphics::RenderCall::Clear();
-
-			for (Core::Layer* layer : mLayerStack)
-				layer->OnUpdate(dt);
+			if (!mIsMinimized) {
+				for (Core::Layer* layer : mLayerStack)
+					layer->OnUpdate(dt);
+			}
 
 			mImGuiLayer->Begin();
 			for (Core::Layer* layer : mLayerStack)
@@ -71,7 +68,8 @@ namespace Ignition::Core {
 
 	void Application::OnEvent(Events::Event& event) {
 		Events::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<Events::WindowCloseEvent>(std::bind(&Application::OnWindowCloseEvent, this, std::placeholders::_1));
+		dispatcher.Dispatch<Events::WindowCloseEvent>(IG_BIND_EVENT(Application::OnWindowCloseEvent));
+		dispatcher.Dispatch<Events::WindowResizeEvent>(IG_BIND_EVENT(Application::OnWindowResize));
 
 		for (auto it = mLayerStack.end(); it != mLayerStack.begin();) {
 			(*--it)->OnEvent(event);
@@ -84,5 +82,17 @@ namespace Ignition::Core {
 	bool Application::OnWindowCloseEvent(Events::WindowCloseEvent& event) {
 		mIsRunning = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(Events::WindowResizeEvent& event) {
+		if (event.GetWidth() == 0 || event.GetHeight() == 0) {
+			mIsMinimized = true;
+			return false;
+		}
+		
+		Graphics::Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+
+		mIsMinimized = false;
+		return false;
 	}
 }
