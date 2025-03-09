@@ -89,6 +89,9 @@ project "Ignition"
         optimize "on"
         runtime "Release"
 
+    filter "files:**/vendor/spdlog/**"
+        warnings "Off" -- Completely disables warnings for spdlog
+
         
 project "Sandbox"
     location "Sandbox"
@@ -140,3 +143,7 @@ project "Sandbox"
         defines { "IG_CONFIG_DIST" }    
         optimize "on"
         runtime "Release"
+
+        
+    filter "files:**/vendor/spdlog/**"
+        warnings "Off" -- Completely disables warnings for spdlog
