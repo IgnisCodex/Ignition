@@ -32,49 +32,12 @@ public:
 		mIndexBuffer.reset(Ignition::Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		mVertexArray->SetIndexBuffer(mIndexBuffer);
 
-		std::string flatColourVertexShaderSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-			out vec4 v_Colour;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
-				
-			}
-		)";
-
-		std::string flatColourFragmentShaderSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			uniform vec4 u_Colour;
-
-			in vec3 v_Position;
-			in vec4 v_Colour;
-
-			void main()
-			{
-				color = u_Colour;
-			}
-		)";
-
-		mFlatColourShader.reset(Ignition::Graphics::Shader::Create(flatColourVertexShaderSrc, flatColourFragmentShaderSrc));
-
-		mTextureShader.reset(Ignition::Graphics::Shader::Create("assets/shaders/texture.glsl"));
+		auto textureShader = mShaderLibrary.Load("assets/shaders/texture.glsl");
 
 		mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
 
-		mTextureShader->Bind();
-		mTextureShader->UploadInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->UploadInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Ignition::Util::DeltaTime dt) override {
@@ -101,8 +64,10 @@ public:
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 
+			auto textureShader = mShaderLibrary.Get("texture");
+
 			mTexture->Bind();
-			Ignition::Graphics::Renderer::Submit(mTextureShader, mVertexArray);
+			Ignition::Graphics::Renderer::Submit(textureShader, mVertexArray);
 
 			Ignition::Graphics::Renderer::SceneEnd();
 		}
@@ -113,10 +78,11 @@ public:
 	}
 
 private:
+	Ignition::Graphics::ShaderLibrary mShaderLibrary;
+
 	Ignition::Ref<Ignition::Graphics::VertexBuffer> mVertexBuffer;
 	Ignition::Ref<Ignition::Graphics::VertexArray> mVertexArray;
 	Ignition::Ref<Ignition::Graphics::IndexBuffer> mIndexBuffer;
-	Ignition::Ref<Ignition::Graphics::Shader> mFlatColourShader, mTextureShader;
 
 	Ignition::Ref<Ignition::Graphics::Texture2D> mTexture;
 

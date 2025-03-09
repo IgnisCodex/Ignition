@@ -2,6 +2,9 @@
 
 #include "Ignition/Log.hpp"
 
+#include <unordered_map>
+#include <string>
+
 #include <glm/glm.hpp>
 
 namespace Ignition::Graphics {
@@ -64,6 +67,8 @@ namespace Ignition::Graphics {
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
+		virtual const std::string& GetName() const = 0;
+
 		// ---- Uniform Uploads ------------+
 		virtual void UploadInt(const std::string& name, int value) const = 0;
 		virtual void UploadFloat(const std::string& name, float value) const = 0;
@@ -74,7 +79,24 @@ namespace Ignition::Graphics {
 		virtual void UploadMatrix3f(const std::string& name, const glm::mat3& mat3f) const = 0;
 		virtual void UploadMatrix4f(const std::string& name, const glm::mat4& mat4f) const = 0;
 
-		static Shader* Create(const std::string& filepath);
-		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+	public:
+		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+		static Ref<Shader> Create(const std::string& filepath);
+	};
+
+	class ShaderLibrary {
+	public:
+		void Add(const Ref<Shader>& shader);
+		void Add(const std::string& name, const Ref<Shader>& shader);
+
+		Ref<Shader> Load(const std::string& filepath);
+		Ref<Shader> Load(const std::string& name, const std::string& filepath);
+
+		Ref<Shader> Get(const std::string& name);
+
+		bool Exists(const std::string& name) const;
+
+	private:
+		std::unordered_map<std::string, Ref<Shader>> mShaders;
 	};
 }

@@ -20,12 +20,18 @@ namespace Ignition::Backends {
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
 		std::string src = ReadFile(filepath);
 		auto srcs = PreProcess(src);
-
 		Compile(srcs);
+
+		// Get Name From Filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		mName = filepath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
-		: mRendererID(0)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: mName(name)
 	{
 		std::unordered_map<GLenum, std::string> srcs;
 		srcs[GL_VERTEX_SHADER] = vertexSrc;
@@ -87,8 +93,9 @@ namespace Ignition::Backends {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& srcs) {
 		GLuint program = glCreateProgram();
 
-		std::vector<GLenum> glShaderIDs(srcs.size());
-
+		IG_CORE_ASSERT(srcs.size() <= 2, "Maximum of 2 Shaders are Currently Supported.");
+		std::array<GLenum, 2> glShaderIDs;
+		int index = 0;
 		for (auto& kv : srcs) {
 			GLenum type = kv.first;
 			const std::string& src = kv.second;
@@ -114,7 +121,7 @@ namespace Ignition::Backends {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[index++] = shader;
 		}
 
 		mRendererID = program;
@@ -148,7 +155,7 @@ namespace Ignition::Backends {
 	std::string OpenGLShader::ReadFile(const std::string& filepath) {
 		std::string result;
 
-		std::ifstream file(filepath, std::ios::in, std::ios::binary);
+		std::ifstream file(filepath, std::ios::in | std::ios::binary);
 		if (file) {
 			file.seekg(0, std::ios::end);
 			result.resize(file.tellg());

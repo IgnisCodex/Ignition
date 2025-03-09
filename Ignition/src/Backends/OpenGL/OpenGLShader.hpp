@@ -11,11 +11,13 @@ namespace Ignition::Backends {
 	class OpenGLShader : public Graphics::Shader {
 	public:
 		OpenGLShader(const std::string& filepath);
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual const std::string& GetName() const override { return mName; }
 
 		// ---- Uniform Uploads ------------+
 		virtual void UploadInt(const std::string& name, int value) const override;
@@ -34,6 +36,7 @@ namespace Ignition::Backends {
 
 	private:
 		uint32_t mRendererID;
+		std::string mName;
 	};
 
 
