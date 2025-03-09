@@ -15,6 +15,7 @@ namespace Ignition::Graphics {
 		const glm::vec3& GetPosition() const { return mPosition; }
 		float GetRotation() const { return mRotation; }
 
+		void SetProjectionMatrix(float left, float right, float bottom, float top);
 		inline void SetPosition(const glm::vec3& position) { mPosition = position; RecalculateViewMatrix(); }
 		inline void SetRotation(float rotation) { mRotation = rotation; RecalculateViewMatrix(); }
 
@@ -22,8 +23,6 @@ namespace Ignition::Graphics {
 		void RecalculateViewMatrix();
 
 	private:
-		//float mAspectRatio;
-		//float mHeight, mNear, mFar;
 		glm::mat4 mViewMatrix;
 		glm::mat4 mProjectionMatrix;
 		glm::mat4 mViewProjectionMatrix;

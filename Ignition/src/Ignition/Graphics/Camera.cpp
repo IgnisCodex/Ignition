@@ -13,6 +13,13 @@ namespace Ignition::Graphics {
 		mViewProjectionMatrix = mProjectionMatrix * mViewMatrix;
 	}
 
+	void OrthoCamera::SetProjectionMatrix(float left, float right, float bottom, float top) {
+		mProjectionMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+		mViewProjectionMatrix = mProjectionMatrix * mViewMatrix;
+	}
+
+	// -------- Private --------
+
 	void OrthoCamera::RecalculateViewMatrix() {
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, mPosition);

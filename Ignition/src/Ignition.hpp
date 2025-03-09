@@ -10,6 +10,7 @@
 // Graphics
 #include "Ignition/Graphics/Buffers.hpp"
 #include "Ignition/Graphics/Camera.hpp"
+#include "Ignition/Graphics/CameraContr.hpp"
 #include "Ignition/Graphics/Context.hpp"
 #include "Ignition/Graphics/RenderCall.hpp"
 #include "Ignition/Graphics/Renderer.hpp"
