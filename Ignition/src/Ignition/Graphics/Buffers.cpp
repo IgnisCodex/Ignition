@@ -11,14 +11,14 @@
 namespace Ignition::Graphics {
 	
 	
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return new Backends::OpenGLVertexBuffer(vertices, size);
+			return std::make_shared<Backends::OpenGLVertexBuffer>(vertices, size);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");
@@ -26,14 +26,14 @@ namespace Ignition::Graphics {
 	}
 
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count) {
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return new Backends::OpenGLIndexBuffer(indices, count);
+			return std::make_shared<Backends::OpenGLIndexBuffer>(indices, count);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");

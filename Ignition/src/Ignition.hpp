@@ -26,7 +26,3 @@
 
 #include "Ignition/UI/ImGuiLayer.hpp"
 #include "Ignition/Util/Colour.hpp"
-
-// ---- Entry Point ------------*
-#include "Ignition/Main.hpp"
-// -----------------------------*

@@ -1,5 +1,8 @@
 #include <Ignition.hpp>
+#include <Ignition/Main.hpp>
 #include <Ignition/Util/Util.hpp>
+
+#include "Sandbox2D.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -16,21 +19,21 @@ public:
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		mVertexBuffer.reset(Ignition::Graphics::VertexBuffer::Create(vertices, sizeof(vertices)));
+		mVertexBuffer = Ignition::Graphics::VertexBuffer::Create(vertices, sizeof(vertices));
 		Ignition::Graphics::BufferLayout layout = {
 			{ Ignition::Graphics::DataType::Vector3f,	"a_Position"	},
 			{ Ignition::Graphics::DataType::Vector2f,	"a_TexCoords"	}
 		};
 		mVertexBuffer->SetLayout(layout);
 
-		mVertexArray.reset(Ignition::Graphics::VertexArray::Create());
+		mVertexArray = Ignition::Graphics::VertexArray::Create();
 		mVertexArray->AddVertexBuffer(mVertexBuffer);
 
 		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
-		mIndexBuffer.reset(Ignition::Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		mIndexBuffer = Ignition::Graphics::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		mVertexArray->SetIndexBuffer(mIndexBuffer);
 
-		auto textureShader = mShaderLibrary.Load("assets/shaders/texture.glsl");
+		auto textureShader = mShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
 
@@ -75,7 +78,8 @@ class Sandbox : public Ignition::Core::Application {
 public:
 	Sandbox() {
 		IG_INFO("Started!");
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() {

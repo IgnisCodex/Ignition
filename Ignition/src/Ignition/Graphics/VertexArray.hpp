@@ -18,6 +18,6 @@ namespace Ignition::Graphics {
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
 	public:
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 }

@@ -9,14 +9,14 @@
 #include "Backends/OpenGL/OpenGLVertexArray.hpp"
 
 namespace Ignition::Graphics {
-	VertexArray* VertexArray::Create() {
+	Ref<VertexArray> VertexArray::Create() {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return new Backends::OpenGLVertexArray();
+			return std::make_shared<Backends::OpenGLVertexArray>();
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");

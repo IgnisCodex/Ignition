@@ -111,7 +111,8 @@ project "Sandbox"
     includedirs {
         "Ignition/src",
         "Ignition/vendor/spdlog/include",
-        "%{INCLUDE_DIR.GLM}"
+        "%{INCLUDE_DIR.GLM}",
+        "%{INCLUDE_DIR.ImGui}"
     }
 
     links {
