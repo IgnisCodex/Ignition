@@ -2,10 +2,12 @@
 #include "Ignition/Graphics/Renderer.hpp"
 
 #include "Ignition/Log.hpp"
+#include "Ignition/Graphics/Renderer2D.hpp"
 
 namespace Ignition::Graphics {
 	void Renderer::Init() {
 		RenderCall::Init();
+		Renderer2D::Init();
 	}
 
 	// =================================*

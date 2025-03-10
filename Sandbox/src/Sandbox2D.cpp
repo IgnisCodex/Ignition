@@ -10,34 +10,10 @@ Sandbox2D::Sandbox2D()
 {}
 
 void Sandbox2D::OnAttach() {
-	mSquareVA = Ignition::Graphics::VertexArray::Create();
-
-	float squareVerticies[3 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
-	};
-
-	Ignition::Ref<Ignition::Graphics::VertexBuffer> squareVB;
-	squareVB = Ignition::Graphics::VertexBuffer::Create(squareVerticies, sizeof(squareVerticies));
-
-	squareVB->SetLayout({
-		{ Ignition::Graphics::DataType::Vector3f, "a_Position" }
-	});
-	mSquareVA->AddVertexBuffer(squareVB);
-
-	uint32_t squareIndicies[6] = { 0, 1, 2, 2, 3, 0 };
-	Ignition::Ref<Ignition::Graphics::IndexBuffer> squareIB;
-	squareIB = Ignition::Graphics::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t));
-	mSquareVA->SetIndexBuffer(squareIB);
-
-	mFlatColourShader = Ignition::Graphics::Shader::Create("assets/shaders/FlatColour.glsl");
+	
 }
 
-void Sandbox2D::OnDetach() {
-
-}
+void Sandbox2D::OnDetach() {}
 
 void Sandbox2D::OnUpdate(Ignition::Util::DeltaTime dt) {
 
@@ -45,14 +21,15 @@ void Sandbox2D::OnUpdate(Ignition::Util::DeltaTime dt) {
 
 	mCameraContr.OnUpdate(dt);
 
-	if (Ignition::Graphics::Renderer::SceneBegin(mCameraContr.GetCamera())) {
-		mFlatColourShader->Bind();
-		mFlatColourShader->UploadVector4f("u_Colour", mSquareColour);
+	Ignition::Graphics::Renderer2D::SceneBegin(mCameraContr.GetCamera());
+	/*mFlatColourShader->Bind();
+	mFlatColourShader->UploadVector4f("u_Colour", mSquareColour);*/
 
-		Ignition::Graphics::Renderer::Submit(mFlatColourShader, mSquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+	//Ignition::Graphics::Renderer::Submit(mFlatColourShader, mSquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
-		Ignition::Graphics::Renderer::SceneEnd();
-	}
+	Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, rgba(255, 80, 80, 1.0f));
+
+	Ignition::Graphics::Renderer2D::SceneEnd();
 }
 
 void Sandbox2D::OnImGuiRender() {

@@ -14,6 +14,7 @@
 #include "Ignition/Graphics/Context.hpp"
 #include "Ignition/Graphics/RenderCall.hpp"
 #include "Ignition/Graphics/Renderer.hpp"
+#include "Ignition/Graphics/Renderer2D.hpp"
 #include "Ignition/Graphics/RendererAPI.hpp"
 #include "Ignition/Graphics/Shader.hpp"
 #include "Ignition/Graphics/Texture.hpp"
