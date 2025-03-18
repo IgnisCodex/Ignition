@@ -7,6 +7,20 @@
 #include "Backends/OpenGL/OpenGLTexture.hpp"
 
 namespace Ignition::Graphics {
+	IGRef<Texture2D> Texture2D::Create(uint32_t width, uint32_t height) {
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:
+			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
+			return nullptr;
+
+		case RendererAPI::API::OpenGL:
+			return IGCreateRef<Backends::OpenGLTexture2D>(width, height);
+		}
+
+		IG_CORE_ASSERT(false, "Unknown Graphics API!");
+		return nullptr;
+	}
+
 	IGRef<Texture2D> Texture2D::Create(const std::string& filepath) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
@@ -14,7 +28,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLTexture2D>(filepath);
+			return IGCreateRef<Backends::OpenGLTexture2D>(filepath);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");

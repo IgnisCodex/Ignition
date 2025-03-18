@@ -13,6 +13,7 @@ namespace Ignition::Graphics {
 	struct Data {
 		IGRef<VertexArray> QuadVertexArray;
 		IGRef<Shader> Default2DShader;
+		IGRef<Texture2D> DefaultTexture;
 	};
 
 	static Data* sData;
@@ -43,6 +44,10 @@ namespace Ignition::Graphics {
 		squareIB = IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t));
 		sData->QuadVertexArray->SetIndexBuffer(squareIB);
 
+		sData->DefaultTexture = Texture2D::Create(1, 1);
+		uint32_t textureData = 0xffffffff;
+		sData->DefaultTexture->SetData(&textureData, sizeof(textureData));
+
 		sData->Default2DShader = Shader::Create("assets/shaders/Default2D.glsl");
 		sData->Default2DShader->Bind();
 		sData->Default2DShader->UploadInt("u_Texture", 0);
@@ -70,6 +75,8 @@ namespace Ignition::Graphics {
 		sData->Default2DShader->Bind();
 		sData->Default2DShader->UploadVector4f("u_Colour", colour);
 
+		sData->DefaultTexture->Bind();
+
 		// Translation -> Rotation -> Scale
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, zIndex })
@@ -88,13 +95,13 @@ namespace Ignition::Graphics {
 		sData->Default2DShader->Bind();
 		sData->Default2DShader->UploadVector4f("u_Colour", rgba(255, 255, 255, 1));
 
+		texture->Bind();
+
 		// Translation -> Rotation -> Scale
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, zIndex })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 0 });
 		sData->Default2DShader->UploadMatrix4f("u_Transform", transform);
-
-		texture->Bind();
 
 		sData->QuadVertexArray->Bind();
 		RenderCall::DrawIndexed(sData->QuadVertexArray);

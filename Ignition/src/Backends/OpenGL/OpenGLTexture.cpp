@@ -3,10 +3,23 @@
 
 #include "Ignition/Log.hpp"
 
-#include <glad/glad.h>
 #include <stb/stb_image.h>
 
 namespace Ignition::Backends {
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+		: mWidth(width)
+		, mHeight(height)
+	{
+		mOpenGLFormat = GL_RGBA8;
+		mDataFormat = GL_RGBA;
+		
+		glCreateTextures(GL_TEXTURE_2D, 1, &mRendererID);
+		glTextureStorage2D(mRendererID, 1, mOpenGLFormat, mWidth, mHeight);
+
+		glTextureParameteri(mRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(mRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
 		: mFilepath(filepath)
 	{
@@ -27,6 +40,9 @@ namespace Ignition::Backends {
 			dataFormat = GL_RGBA;
 		}
 
+		mOpenGLFormat = openGLFormat;
+		mDataFormat = dataFormat;
+
 		IG_CORE_ASSERT(openGLFormat & dataFormat, "Texture Format is not Supported!");
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &mRendererID);
@@ -45,6 +61,12 @@ namespace Ignition::Backends {
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const {
-		glBindTextureUnit(0, mRendererID);
+		glBindTextureUnit(slot, mRendererID);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size) {
+		uint32_t bpp = mDataFormat == GL_RGBA ? 4 : 3;
+		IG_CORE_ASSERT(size == mWidth * mHeight * bpp, "Size must be the full texture!");
+		glTextureSubImage2D(mRendererID, 0, 0, 0, mWidth, mHeight, mDataFormat, GL_UNSIGNED_BYTE, data);
 	}
 }

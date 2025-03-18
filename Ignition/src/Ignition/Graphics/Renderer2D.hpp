@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Ignition/API.hpp"
 #include "Ignition/Graphics/Camera.hpp"
 #include "Ignition/Graphics/Texture.hpp"
 

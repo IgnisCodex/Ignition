@@ -18,7 +18,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLVertexBuffer>(vertices, size);
+			return IGCreateRef<Backends::OpenGLVertexBuffer>(vertices, size);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");
@@ -33,7 +33,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLIndexBuffer>(indices, count);
+			return IGCreateRef<Backends::OpenGLIndexBuffer>(indices, count);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");

@@ -16,7 +16,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLVertexArray>();
+			return IGCreateRef<Backends::OpenGLVertexArray>();
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");

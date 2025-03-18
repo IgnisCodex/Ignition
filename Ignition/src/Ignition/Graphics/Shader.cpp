@@ -15,7 +15,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLShader>(filepath);
+			return IGCreateRef<Backends::OpenGLShader>(filepath);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");
@@ -29,7 +29,7 @@ namespace Ignition::Graphics {
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<Backends::OpenGLShader>(name, vertexSrc, fragmentSrc);
+			return IGCreateRef<Backends::OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
 		IG_CORE_ASSERT(false, "Unknown Graphics API!");
