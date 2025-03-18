@@ -7,7 +7,7 @@
 #include "Backends/OpenGL/OpenGLTexture.hpp"
 
 namespace Ignition::Graphics {
-	Ref<Texture2D> Texture2D::Create(const std::string& filepath) {
+	IGRef<Texture2D> Texture2D::Create(const std::string& filepath) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");

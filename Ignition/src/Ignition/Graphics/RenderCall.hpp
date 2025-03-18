@@ -17,7 +17,7 @@ namespace Ignition::Graphics {
 			sRendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray) {
+		inline static void DrawIndexed(const IGRef<VertexArray>& vertexArray) {
 			sRendererAPI->DrawIndexed(vertexArray);
 		}
 

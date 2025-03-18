@@ -10,7 +10,7 @@ Sandbox2D::Sandbox2D()
 {}
 
 void Sandbox2D::OnAttach() {
-	
+	mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
 }
 
 void Sandbox2D::OnDetach() {}
@@ -20,14 +20,12 @@ void Sandbox2D::OnUpdate(Ignition::Util::DeltaTime dt) {
 	Ignition::Graphics::RenderCall::Clear(rgb(15, 23, 42));
 
 	mCameraContr.OnUpdate(dt);
-
+	
 	Ignition::Graphics::Renderer2D::SceneBegin(mCameraContr.GetCamera());
-	/*mFlatColourShader->Bind();
-	mFlatColourShader->UploadVector4f("u_Colour", mSquareColour);*/
-
-	//Ignition::Graphics::Renderer::Submit(mFlatColourShader, mSquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 	Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, rgba(255, 80, 80, 1.0f));
+	Ignition::Graphics::Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 1.0f, 1.0f }, mSquareColour);
+	Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 1.0f }, { 1.0f, 1.0f }, mTexture);
 
 	Ignition::Graphics::Renderer2D::SceneEnd();
 }

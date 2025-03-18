@@ -9,7 +9,7 @@
 #include "Backends/OpenGL/OpenGLVertexArray.hpp"
 
 namespace Ignition::Graphics {
-	Ref<VertexArray> VertexArray::Create() {
+	IGRef<VertexArray> VertexArray::Create() {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");

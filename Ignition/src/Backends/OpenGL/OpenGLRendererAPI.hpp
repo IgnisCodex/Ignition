@@ -10,6 +10,6 @@ namespace Ignition::Backends {
 		virtual void Clear(const glm::vec4& colour) override;
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 
-		virtual void DrawIndexed(const Ref<Graphics::VertexArray>& vertexArray) override;
+		virtual void DrawIndexed(const IGRef<Graphics::VertexArray>& vertexArray) override;
 	};
 }

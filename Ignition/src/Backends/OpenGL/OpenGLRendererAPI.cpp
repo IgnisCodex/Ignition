@@ -1,7 +1,7 @@
 #include "IGPCH.hpp"
 #include "Backends/OpenGL/OpenGLRendererAPI.hpp"
 
-#include "Ignition/Util/Util.hpp"
+#include "Ignition/API.hpp"
 
 #include <glad/glad.h>
 
@@ -10,6 +10,7 @@ namespace Ignition::Backends {
 	void OpenGLRendererAPI::Init() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	void OpenGLRendererAPI::Clear(const glm::vec4& colour) {
@@ -21,7 +22,7 @@ namespace Ignition::Backends {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const Ref<Graphics::VertexArray>& vertexArray) {
+	void OpenGLRendererAPI::DrawIndexed(const IGRef<Graphics::VertexArray>& vertexArray) {
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 	 

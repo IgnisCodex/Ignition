@@ -1,5 +1,6 @@
 #pragma once
 // For use by Ignition Apps ONLY
+#include "Ignition/API.hpp"
 #include "Ignition/Log.hpp"
 
 #include "Ignition/Core/Application.hpp"

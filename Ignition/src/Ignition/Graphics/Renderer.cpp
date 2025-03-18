@@ -38,7 +38,7 @@ namespace Ignition::Graphics {
 	// =================================*
 	// Submit							|
 	// =================================*
-	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform) {
+	void Renderer::Submit(const IGRef<Shader>& shader, const IGRef<VertexArray>& vertexArray, const glm::mat4& transform) {
 		shader->Bind();
 		shader->UploadMatrix4f("u_ViewProjection", mScene->ViewProjectionMatrix);
 		shader->UploadMatrix4f("u_Transform", transform);

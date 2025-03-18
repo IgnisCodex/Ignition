@@ -1,6 +1,5 @@
 #include <Ignition.hpp>
 #include <Ignition/Main.hpp>
-#include <Ignition/Util/Util.hpp>
 
 #include "Sandbox2D.hpp"
 
@@ -65,11 +64,11 @@ public:
 private:
 	Ignition::Graphics::ShaderLibrary mShaderLibrary;
 
-	Ignition::Ref<Ignition::Graphics::VertexBuffer> mVertexBuffer;
-	Ignition::Ref<Ignition::Graphics::VertexArray> mVertexArray;
-	Ignition::Ref<Ignition::Graphics::IndexBuffer> mIndexBuffer;
+	IGRef<Ignition::Graphics::VertexBuffer> mVertexBuffer;
+	IGRef<Ignition::Graphics::VertexArray> mVertexArray;
+	IGRef<Ignition::Graphics::IndexBuffer> mIndexBuffer;
 
-	Ignition::Ref<Ignition::Graphics::Texture2D> mTexture;
+	IGRef<Ignition::Graphics::Texture2D> mTexture;
 
 	Ignition::Graphics::OrthoCameraContr mOrthoCameraContr;
 };

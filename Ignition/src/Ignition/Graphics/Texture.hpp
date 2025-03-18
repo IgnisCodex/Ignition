@@ -17,7 +17,7 @@ namespace Ignition::Graphics {
 
 	class Texture2D : public Texture {
 	public:
-		static Ref<Texture2D> Create(const std::string& filepath);
+		static IGRef<Texture2D> Create(const std::string& filepath);
 
 	private:
 	};

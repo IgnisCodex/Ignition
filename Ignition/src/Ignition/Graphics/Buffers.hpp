@@ -99,7 +99,7 @@ namespace Ignition::Graphics {
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
 	public:
-		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+		static IGRef<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
 	class IndexBuffer {
@@ -112,6 +112,6 @@ namespace Ignition::Graphics {
 		virtual uint32_t GetCount() const = 0;
 
 	public:
-		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+		static IGRef<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 	};
 }

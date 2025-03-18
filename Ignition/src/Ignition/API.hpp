@@ -1,6 +1,11 @@
 #pragma once
 
+#include "Ignition/Graphics/Renderer2D.hpp"
+#include "Ignition/Util/Colour.hpp"
+
 #include <memory>
+
+#include <glm/glm.hpp>
 
 #ifdef IG_PLATFORM_WINDOWS
 	#ifdef IG_DYNAMIC_LINK
@@ -21,10 +26,18 @@
 
 #define IG_BIND_EVENT(fn) std::bind(&fn, this, std::placeholders::_1)
 
-namespace Ignition {
-	template <typename T>
-	using Scope = std::unique_ptr<T>;
+// ---- Igniton Typedefs ----
+template <typename T>
+using IGScope = std::unique_ptr<T>;
 
-	template <typename T>
-	using Ref = std::shared_ptr<T>;
-}
+template <typename T>
+using IGRef = std::shared_ptr<T>;
+
+//using IGRenderer2D = Ignition::Graphics::Renderer2D;
+
+// ---------------
+//  Util | Colour
+// ---------------
+using IGColour = glm::vec4;
+using Ignition::Util::rgb;
+using Ignition::Util::rgba;

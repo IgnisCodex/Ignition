@@ -23,7 +23,7 @@ namespace Ignition::Backends {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const Ref<Graphics::VertexBuffer>& vertexBuffer) {
+	void OpenGLVertexArray::AddVertexBuffer(const IGRef<Graphics::VertexBuffer>& vertexBuffer) {
 		IG_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer Layout is Invalid!");
 
 		glBindVertexArray(mRendererID);
@@ -47,7 +47,7 @@ namespace Ignition::Backends {
 		mVertexBuffers.push_back(vertexBuffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const Ref<Graphics::IndexBuffer>& indexBuffer) {
+	void OpenGLVertexArray::SetIndexBuffer(const IGRef<Graphics::IndexBuffer>& indexBuffer) {
 		glBindVertexArray(mRendererID);
 		indexBuffer->Bind();
 

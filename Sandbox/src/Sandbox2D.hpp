@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Ignition.hpp>
-#include <Ignition/Util/Util.hpp>
 
 class Sandbox2D : public Ignition::Core::Layer {
 public:
@@ -18,8 +17,9 @@ public:
 private:
 	Ignition::Graphics::OrthoCameraContr mCameraContr;
 
-	Ignition::Ref<Ignition::Graphics::Shader> mFlatColourShader;
+	IGRef<Ignition::Graphics::Shader> mFlatColourShader;
+	IGRef<Ignition::Graphics::Texture2D> mTexture;
 
-	Ignition::Ref<Ignition::Graphics::VertexArray> mSquareVA;
+	IGRef<Ignition::Graphics::VertexArray> mSquareVA;
 	IGColour mSquareColour = rgb(30, 30, 100);
 };

@@ -11,7 +11,7 @@
 namespace Ignition::Graphics {
 	
 	
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
+	IGRef<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
@@ -26,7 +26,7 @@ namespace Ignition::Graphics {
 	}
 
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count) {
+	IGRef<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
