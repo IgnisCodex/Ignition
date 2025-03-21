@@ -21,6 +21,7 @@ namespace Ignition::Core {
 		virtual ~Application();
 
 		void Run();
+		void Quit();
 
 		void OnEvent(Events::Event& event);
 

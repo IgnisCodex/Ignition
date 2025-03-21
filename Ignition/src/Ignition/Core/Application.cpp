@@ -56,6 +56,10 @@ namespace Ignition::Core {
 		}
 	}
 
+	void Application::Quit() {
+		mIsRunning = false;
+	}
+
 	void Application::PushLayer(Core::Layer* layer) {
 		mLayerStack.PushLayer(layer);
 		layer->OnAttach();
