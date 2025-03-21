@@ -1,4 +1,6 @@
-# Ignition
+# <img src="Ignition.png?raw=true" alt="Ignition" width="32" height="32" style="image-rendering: pixelated; vertical-align: middle;">Ignition 
+
+
 **THIS PROJECT IS CURRENTLY IN DEVELOPMENT**<br>
 *README to be updated...*
 
