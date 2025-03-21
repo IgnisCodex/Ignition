@@ -24,6 +24,23 @@ namespace Ignition::Graphics {
 	public:
 		static IGRef<Texture2D> Create(uint32_t width, uint32_t height);
 		static IGRef<Texture2D> Create(const std::string& filepath);
+	};
 
+
+
+	class SubTexture2D {
+	public:
+		SubTexture2D(const IGRef<Texture2D>& texture, const glm::vec2& min, const glm::vec2& max);
+		
+		const IGRef<Texture2D> GetTexture() { return mTexture; }
+		const glm::vec2* GetTextureCoordinates() { return mTextureCoordinates; }
+
+	public:
+		//static IGRef<SubTexture2D> Create(const IGRef<Texture2D>& texture, int index, int size);
+		static IGRef<SubTexture2D> Create(const IGRef<Texture2D>& texture, glm::vec2& coordinates, glm::vec2& size);
+		
+	private:
+		IGRef<Texture2D> mTexture;
+		glm::vec2 mTextureCoordinates[4];
 	};
 }
