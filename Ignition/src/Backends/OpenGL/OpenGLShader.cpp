@@ -45,6 +45,11 @@ namespace Ignition::Backends {
 		GLint location = glGetUniformLocation(mRendererID, name.c_str());
 		glUniform1i(location, value);
 	}
+	
+	void OpenGLShader::UploadIntArray(const std::string& name, int* values, uint32_t count) const {
+		GLint location = glGetUniformLocation(mRendererID, name.c_str());
+		glUniform1iv(location, count, values);
+	}
 
 	void OpenGLShader::UploadFloat(const std::string& name, float value) const {
 		GLint location = glGetUniformLocation(mRendererID, name.c_str());

@@ -71,6 +71,7 @@ namespace Ignition::Graphics {
 
 		// ---- Uniform Uploads ------------+
 		virtual void UploadInt(const std::string& name, int value) const = 0;
+		virtual void UploadIntArray(const std::string& name, int* values, uint32_t count) const = 0;
 		virtual void UploadFloat(const std::string& name, float value) const = 0;
 		virtual void UploadVector2f(const std::string& name, const glm::vec2& vec2f) const = 0;
 		virtual void UploadVector3f(const std::string& name, const glm::vec3& vec3f) const = 0;

@@ -21,5 +21,9 @@ private:
 	IGRef<Ignition::Graphics::Texture2D> mTexture;
 
 	IGRef<Ignition::Graphics::VertexArray> mSquareVA;
+
+	Ignition::Debug::BlackBox mBlackBox;
+
 	IGColour mSquareColour = rgb(30, 30, 100);
+	IGColour mTint = rgb(0, 0, 255);
 };

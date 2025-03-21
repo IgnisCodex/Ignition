@@ -13,6 +13,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Ignition/Log.hpp"
+#include "Ignition/Debug/Instrumentor.hpp"
+
 #ifdef IG_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

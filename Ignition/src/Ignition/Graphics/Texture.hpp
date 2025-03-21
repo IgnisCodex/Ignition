@@ -16,6 +16,8 @@ namespace Ignition::Graphics {
 
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
+
+		virtual bool operator==(const Texture& other) const = 0;
 	};
 
 	class Texture2D : public Texture {
@@ -23,6 +25,5 @@ namespace Ignition::Graphics {
 		static IGRef<Texture2D> Create(uint32_t width, uint32_t height);
 		static IGRef<Texture2D> Create(const std::string& filepath);
 
-	private:
 	};
 }

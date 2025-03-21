@@ -7,6 +7,7 @@
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
+#include <libs/implot/implot.h>
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -22,6 +23,7 @@ namespace Ignition::UI {
 		// Setup ImGui Context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -45,6 +47,7 @@ namespace Ignition::UI {
 	void ImGuiLayer::OnDetach() {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
 

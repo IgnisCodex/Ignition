@@ -8,3 +8,5 @@ build/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+IGProfile*.json

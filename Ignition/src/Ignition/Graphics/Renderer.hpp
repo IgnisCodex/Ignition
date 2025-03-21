@@ -12,7 +12,7 @@ namespace Ignition::Graphics {
 	public:
 		static void Init();
 		
-		static bool SceneBegin(OrthoCamera& camera);
+		static void SceneBegin(OrthoCamera& camera);
 		static void SceneEnd();
 
 		static void OnWindowResize(uint32_t width, uint32_t height);

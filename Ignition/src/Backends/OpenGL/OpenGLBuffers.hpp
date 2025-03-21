@@ -5,6 +5,7 @@
 namespace Ignition::Backends {
 	class OpenGLVertexBuffer : public Graphics::VertexBuffer {
 	public:
+		OpenGLVertexBuffer(uint32_t size);
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		virtual ~OpenGLVertexBuffer();
 
@@ -13,6 +14,8 @@ namespace Ignition::Backends {
 
 		virtual const Graphics::BufferLayout& GetLayout() const { return mLayout; }
 		virtual void SetLayout(const Graphics::BufferLayout& layout) { mLayout = layout; };
+
+		virtual void SetData(const void* data, uint32_t size) override;
 
 	private:
 		uint32_t mRendererID;

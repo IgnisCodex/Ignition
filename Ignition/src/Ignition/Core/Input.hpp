@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IGPCH.hpp"
-
 #include "Ignition/API.hpp"
 
 namespace Ignition::Core {
@@ -13,6 +11,16 @@ namespace Ignition::Core {
 		inline static std::pair<float, float> GetCursorPosition() { return sInstance->GetCursorPosition_Impl(); }
 		inline static float GetCursorX() { return sInstance->GetCursorX_Impl(); }
 		inline static float GetCursorY() { return sInstance->GetCursorY_Impl(); }
+		
+		inline static glm::vec2 GetMouseDelta() {
+			std::pair currentMousePos = GetCursorPosition();
+			static std::pair lastMousePos = currentMousePos;
+
+			std::pair delta = { currentMousePos.first - lastMousePos.first, currentMousePos.second - lastMousePos.second };
+			lastMousePos = currentMousePos;
+
+			return glm::vec2(delta.first, delta.second);
+		}
 
 	protected:
 		virtual bool IsKeyPressed_Impl(int keycode) = 0;

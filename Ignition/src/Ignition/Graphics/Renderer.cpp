@@ -15,12 +15,10 @@ namespace Ignition::Graphics {
 	// =================================*
 	Renderer::Scene* Renderer::mScene = new Renderer::Scene;
 
-	bool Renderer::SceneBegin(OrthoCamera& camera) {
+	void Renderer::SceneBegin(OrthoCamera& camera) {
 		mScene->State = true;
-
-		mScene->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 		
-		return true;
+		mScene->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 
 	void Renderer::SceneEnd() {

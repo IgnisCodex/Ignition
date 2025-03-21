@@ -9,8 +9,20 @@
 #include "Backends/OpenGL/OpenGLBuffers.hpp"
 
 namespace Ignition::Graphics {
-	
-	
+	IGRef<VertexBuffer> VertexBuffer::Create(uint32_t size) {
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:
+			IG_CORE_ASSERT(false, "Headless Mode is Currently not Supported!");
+			return nullptr;
+
+		case RendererAPI::API::OpenGL:
+			return IGCreateRef<Backends::OpenGLVertexBuffer>(size);
+		}
+
+		IG_CORE_ASSERT(false, "Unknown Graphics API!");
+		return nullptr;
+	}
+
 	IGRef<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:

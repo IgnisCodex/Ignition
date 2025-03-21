@@ -18,6 +18,8 @@ namespace Ignition::Backends {
 		virtual uint32_t GetWidth() const override { return mWidth; }
 		virtual uint32_t GetHeight() const override { return mHeight; }
 
+		virtual bool operator==(const Texture& other) const override { return mRendererID == ((OpenGLTexture2D&)other).mRendererID; }
+
 	private:
 		std::string mFilepath;
 		uint32_t mWidth;

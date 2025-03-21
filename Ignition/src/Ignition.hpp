@@ -8,6 +8,8 @@
 #include "Ignition/Core/InputCodes.hpp"
 #include "Ignition/Core/Layer.hpp"
 
+#include "Ignition/Debug/BlackBox.hpp"
+
 // Graphics
 #include "Ignition/Graphics/Buffers.hpp"
 #include "Ignition/Graphics/Camera.hpp"

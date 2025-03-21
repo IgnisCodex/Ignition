@@ -46,15 +46,14 @@ public:
 
 		mOrthoCameraContr.OnUpdate(dt);
 
-		if (Ignition::Graphics::Renderer::SceneBegin(mOrthoCameraContr.GetCamera())) {
-			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+		Ignition::Graphics::Renderer::SceneBegin(mOrthoCameraContr.GetCamera());
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 
-			auto textureShader = mShaderLibrary.Get("texture");
-			mTexture->Bind();
-			Ignition::Graphics::Renderer::Submit(textureShader, mVertexArray);
+		auto textureShader = mShaderLibrary.Get("texture");
+		mTexture->Bind();
+		Ignition::Graphics::Renderer::Submit(textureShader, mVertexArray);
 
-			Ignition::Graphics::Renderer::SceneEnd();
-		}
+		Ignition::Graphics::Renderer::SceneEnd();
 	}
 
 	void OnEvent(Ignition::Events::Event& event) override {

@@ -98,7 +98,10 @@ namespace Ignition::Graphics {
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
+		virtual void SetData(const void* data, uint32_t size) = 0;
+
 	public:
+		static IGRef<VertexBuffer> Create(uint32_t size);
 		static IGRef<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 

@@ -5,18 +5,18 @@
 // ========================
 // Mouse Button Codes
 // ========================
-#define HZ_MOUSE_BUTTON_1         0
-#define HZ_MOUSE_BUTTON_2         1
-#define HZ_MOUSE_BUTTON_3         2
-#define HZ_MOUSE_BUTTON_4         3
-#define HZ_MOUSE_BUTTON_5         4
-#define HZ_MOUSE_BUTTON_6         5
-#define HZ_MOUSE_BUTTON_7         6
-#define HZ_MOUSE_BUTTON_8         7
-#define HZ_MOUSE_BUTTON_LAST      HZ_MOUSE_BUTTON_8
-#define HZ_MOUSE_BUTTON_LEFT      HZ_MOUSE_BUTTON_1
-#define HZ_MOUSE_BUTTON_RIGHT     HZ_MOUSE_BUTTON_2
-#define HZ_MOUSE_BUTTON_MIDDLE    HZ_MOUSE_BUTTON_3
+#define IG_MOUSE_BUTTON_1         0
+#define IG_MOUSE_BUTTON_2         1
+#define IG_MOUSE_BUTTON_3         2
+#define IG_MOUSE_BUTTON_4         3
+#define IG_MOUSE_BUTTON_5         4
+#define IG_MOUSE_BUTTON_6         5
+#define IG_MOUSE_BUTTON_7         6
+#define IG_MOUSE_BUTTON_8         7
+#define IG_MOUSE_BUTTON_LAST      IG_MOUSE_BUTTON_8
+#define IG_MOUSE_BUTTON_LEFT      IG_MOUSE_BUTTON_1
+#define IG_MOUSE_BUTTON_RIGHT     IG_MOUSE_BUTTON_2
+#define IG_MOUSE_BUTTON_MIDDLE    IG_MOUSE_BUTTON_3
 
 // ========================
 // Key Codes
