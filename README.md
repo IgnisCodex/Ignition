@@ -1,5 +1,4 @@
-# <img src="Ignition.png?raw=true" alt="Ignition" width="32" height="32" style="image-rendering: pixelated; vertical-align: middle;">Ignition 
-
+# Ignition <img src="Ignition.png?raw=true" alt="Ignition" width="50" height="50" align="right" style="image-rendering: pixelated;">
 
 **THIS PROJECT IS CURRENTLY IN DEVELOPMENT**<br>
 *README to be updated...*
