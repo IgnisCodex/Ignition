@@ -19,6 +19,7 @@ private:
 
 	IGRef<Ignition::Graphics::Shader> mFlatColourShader;
 	IGRef<Ignition::Graphics::Texture2D> mTexture;
+	IGRef<Ignition::Graphics::Framebuffer> mFramebuffer;
 
 	IGRef<Ignition::Graphics::Texture2D> mTileSheet;
 	IGRef<Ignition::Graphics::SubTexture2D> mFlower;

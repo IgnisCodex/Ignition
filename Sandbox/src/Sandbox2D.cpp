@@ -13,6 +13,12 @@ void Sandbox2D::OnAttach() {
 	//6 * 4
 	mTileSheet = Ignition::Graphics::Texture2D::Create("assets/textures/tsHome.png");
 	mFlower = Ignition::Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(0, 9), glm::vec2(20, 20));
+
+	Ignition::Graphics::FramebufferProperties fbProperties;
+	fbProperties.Width = 1280.0f;
+	fbProperties.Height = 720.0f;
+	mFramebuffer = Ignition::Graphics::Framebuffer::Create(fbProperties);
+
 }
 
 void Sandbox2D::OnDetach() {
@@ -21,20 +27,19 @@ void Sandbox2D::OnDetach() {
 
 void Sandbox2D::OnUpdate(Ignition::Util::DeltaTime dt) {
 
-	Ignition::Graphics::RenderCall::Clear(rgb(49, 51, 59));
-
 	mCameraContr.OnUpdate(dt);
 
+	mFramebuffer->Bind();
+	Ignition::Graphics::RenderCall::Clear(rgb(49, 51, 59));
 	Ignition::Graphics::Renderer2D::SceneBegin(mCameraContr.GetCamera());
 		
 	//Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, rgb(255, 255, 0));
 	//Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 1.5f }, { 1.0f, 1.0f }, rgb(255, 0, 255));
-	Ignition::Graphics::Renderer2D::DrawQuad({ 1.5f, 0.0f }, { 1.0f, 1.0f }, mTileSheet);
-
-	IG_INFO("mTilesheet: w= {} y= {}", mTileSheet->GetWidth(), mTileSheet->GetHeight());
+	//Ignition::Graphics::Renderer2D::DrawQuad({ 1.5f, 0.0f }, { 1.0f, 1.0f }, mTileSheet);
 	Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, mFlower);
 
 	Ignition::Graphics::Renderer2D::SceneEnd();
+	mFramebuffer->Unbind();
 }
 
 void Sandbox2D::OnImGuiRender() {
@@ -75,6 +80,12 @@ void Sandbox2D::OnImGuiRender() {
 		ImGui::EndMenuBar();
 	}
 
+	ImGui::End();
+
+	if (ImGui::Begin("Viewport")) {
+		uint32_t textureID = mFramebuffer->GetColourAttachmentRendererID();
+		ImGui::Image((ImTextureID)textureID, ImVec2{ 1280.0f, 720.0f });
+	}
 	ImGui::End();
 
 	ImGui::ShowDemoWindow();

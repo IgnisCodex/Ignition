@@ -15,6 +15,7 @@
 #include "Ignition/Graphics/Camera.hpp"
 #include "Ignition/Graphics/CameraContr.hpp"
 #include "Ignition/Graphics/Context.hpp"
+#include "Ignition/Graphics/Framebuffer.hpp"
 #include "Ignition/Graphics/RenderCall.hpp"
 #include "Ignition/Graphics/Renderer.hpp"
 #include "Ignition/Graphics/Renderer2D.hpp"
