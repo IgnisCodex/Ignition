@@ -12,6 +12,8 @@ namespace Ignition::Graphics {
 
 	class Framebuffer {
 	public:
+		virtual ~Framebuffer() {}
+
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 

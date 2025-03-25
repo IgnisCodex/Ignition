@@ -13,7 +13,7 @@ namespace Ignition {
 		mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
 		//6 * 4
 		mTileSheet = Ignition::Graphics::Texture2D::Create("assets/textures/tsHome.png");
-		mFlower = Ignition::Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(0, 9), glm::vec2(20, 20));
+		mFlower = Ignition::Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(3, 9), glm::vec2(20, 20));
 
 		Ignition::Graphics::FramebufferProperties fbProperties;
 		fbProperties.Width = 1280.0f;

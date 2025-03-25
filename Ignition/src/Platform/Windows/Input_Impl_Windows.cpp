@@ -1,6 +1,5 @@
 #include "IGPCH.hpp"
-
-#include "Platform/Windows/Input_Impl_Windows.hpp"
+#include "Ignition/Core/Input.hpp"
 
 #include "Ignition/Core/Application.hpp"
 
@@ -8,21 +7,19 @@
 
 namespace Ignition {
 
-	Core::Input* Core::Input::sInstance = new Input_Impl_Windows();
-	
-	bool Input_Impl_Windows::IsKeyPressed_Impl(int keycode) {
+	bool Core::Input::IsKeyPressed(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Core::Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetKey(window, keycode);
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool Input_Impl_Windows::IsMouseButtonPressed_Impl(int button) {
+	bool Core::Input::IsMouseButtonPressed(int button) {
 		auto window = static_cast<GLFWwindow*>(Core::Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, button);
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> Input_Impl_Windows::GetCursorPosition_Impl() {
+	std::pair<float, float> Core::Input::GetCursorPosition() {
 		auto window = static_cast<GLFWwindow*>(Core::Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
@@ -30,13 +27,13 @@ namespace Ignition {
 		return { (float)xpos, (float)ypos };
 	}
 
-	float Input_Impl_Windows::GetCursorX_Impl() {
-		auto [x, y] = GetCursorPosition_Impl();
+	float Core::Input::GetCursorX() {
+		auto [x, y] = GetCursorPosition();
 		return x;
 	}
 
-	float Input_Impl_Windows::GetCursorY_Impl() {
-		auto [x, y] = GetCursorPosition_Impl();
+	float Core::Input::GetCursorY() {
+		auto [x, y] = GetCursorPosition();
 		return y;
 	}
 }
