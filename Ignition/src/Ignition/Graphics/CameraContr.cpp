@@ -47,6 +47,11 @@ namespace Ignition::Graphics {
 		dispatcher.Dispatch<Events::WindowResizeEvent>(IG_BIND_EVENT(OrthoCameraContr::OnWindowResize));
 	}
 
+	void OrthoCameraContr::Resize(float width, float height) {
+		mAspectRatio = width / height;
+		mCamera.SetProjectionMatrix(-mAspectRatio * mZoom, mAspectRatio * mZoom, -mZoom, mZoom);
+	}
+
 	bool OrthoCameraContr::OnMouseScroll(Events::MouseScrollEvent& event) {
 		mZoom -= event.GetYOffset() * 0.25f;
 		mZoom = std::max(mZoom, 0.25f);
@@ -55,8 +60,7 @@ namespace Ignition::Graphics {
 	}
 
 	bool OrthoCameraContr::OnWindowResize(Events::WindowResizeEvent& event) {
-		mAspectRatio = (float)event.GetWidth() / (float)event.GetHeight();
-		mCamera.SetProjectionMatrix(-mAspectRatio * mZoom, mAspectRatio * mZoom, -mZoom, mZoom);
+		Resize((float)event.GetWidth(), (float)event.GetHeight());
 		return false;
 	}
 }

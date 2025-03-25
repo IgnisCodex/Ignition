@@ -13,6 +13,8 @@ namespace Ignition::Graphics {
 		void OnUpdate(Util::DeltaTime dt);
 		void OnEvent(Events::Event& event);
 
+		void Resize(float width, float height);
+
 		OrthoCamera& GetCamera() { return mCamera; }
 		const OrthoCamera& GetCamera() const { return mCamera; }
 

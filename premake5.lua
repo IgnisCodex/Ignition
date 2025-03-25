@@ -93,8 +93,66 @@ project "Ignition"
         warnings "Off" -- Completely disables warnings for spdlog
 
         
+
+
 project "Sandbox"
     location "Sandbox"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
+    objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    includedirs {
+        "Ignition/src",
+        "Ignition/vendor/spdlog/include",
+        "%{INCLUDE_DIR.GLM}",
+        "%{INCLUDE_DIR.ImGui}"
+    }
+
+    links {
+        "Ignition"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+
+        defines {
+            "IG_PLATFORM_WINDOWS"
+        }
+
+        buildoptions {
+            "/utf-8"
+        }
+
+    filter "configurations:Debug"
+        defines { "IG_CONFIG_DEBUG" }  
+        symbols "on"
+        runtime "Debug"
+
+    filter "configurations:Release"  
+        defines { "IG_CONFIG_RELEASE" }    
+        optimize "on"
+        runtime "Release"
+
+    filter "configurations:Dist"  
+        defines { "IG_CONFIG_DIST" }    
+        optimize "on"
+        runtime "Release"
+
+        
+    filter "files:**/vendor/spdlog/**"
+        warnings "Off" -- Completely disables warnings for spdlog
+
+project "Flint"
+    location "Flint"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"

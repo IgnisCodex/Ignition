@@ -12,8 +12,8 @@ namespace Ignition {
 
 	static bool IsGLFWInitalised = false;
 	
-	Core::Window* Core::Window::Create(const Core::WindowProperties & properties) {
-		return new Window_Impl_Windows(properties);
+	IGScope<Core::Window> Core::Window::Create(const Core::WindowProperties & properties) {
+		return IGCreateScope<Window_Impl_Windows>(properties);
 	}
 
 	Window_Impl_Windows::Window_Impl_Windows(const Core::WindowProperties& properties) {

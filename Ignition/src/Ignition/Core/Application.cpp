@@ -18,11 +18,11 @@ namespace Ignition::Core {
 
 	Application* Application::sInstance = nullptr;
 
-	Application::Application() {
+	Application::Application(const std::string& name) {
 		IG_CORE_ASSERT(!sInstance, "Application Instance Already Exists!");
 		sInstance = this;
 
-		mWindow = std::unique_ptr<Window>(Window::Create());
+		mWindow = Window::Create(WindowProperties(name));
 		mWindow->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
 		Graphics::Renderer::Init();

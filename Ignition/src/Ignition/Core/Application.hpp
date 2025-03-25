@@ -17,7 +17,7 @@
 namespace Ignition::Core {
 	class IGNITION_API Application {
 	public:
-		Application();
+		Application(const std::string& name = "Ignition");
 		virtual ~Application();
 
 		void Run();
