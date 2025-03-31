@@ -15,11 +15,18 @@ namespace Ignition::Graphics {
 		static void Flush();
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
-		static void DrawQuad(const glm::vec2& position, float zIndex, const glm::vec2& size, const glm::vec4& colour);
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const IGRef<Texture2D>& texture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
-		static void DrawQuad(const glm::vec2& position, float zIndex, const glm::vec2& size, const IGRef<Texture2D>& texture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
-
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const IGRef<SubTexture2D>& subtexture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
+		
+		static void DrawQuad(const glm::vec2& position, float zIndex, const glm::vec2& size, const glm::vec4& colour);
+		static void DrawQuad(const glm::vec2& position, float zIndex, const glm::vec2& size, const IGRef<Texture2D>& texture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
 		static void DrawQuad(const glm::vec2& position, float zIndex, const glm::vec2& size, const IGRef<SubTexture2D>& subtexture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
+
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour);
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const IGRef<Texture2D>& texture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const IGRef<SubTexture2D>& subtexture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
+
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& colour);
+		static void DrawQuad(const glm::mat4& transform, const IGRef<Texture2D>& texture, const glm::vec4& tint = rgba(255, 255, 255, 1.0f));
 	};
 }
