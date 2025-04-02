@@ -1,6 +1,7 @@
 #include "EditorLayer.hpp"
 
 #include <imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Ignition {
@@ -10,15 +11,25 @@ namespace Ignition {
 	}
 
 	void EditorLayer::OnAttach() {
-		mTexture = Ignition::Graphics::Texture2D::Create("assets/textures/band.png");
+		mTexture = Graphics::Texture2D::Create("assets/textures/band.png");
 		//6 * 4
-		mTileSheet = Ignition::Graphics::Texture2D::Create("assets/textures/tsHome.png");
-		mFlower = Ignition::Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(3, 9), glm::vec2(20, 20));
+		mTileSheet = Graphics::Texture2D::Create("assets/textures/tsHome.png");
+		mFlower = Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(6, 6), glm::vec2(20, 20));
 
-		Ignition::Graphics::FramebufferProperties fbProperties;
+		Graphics::FramebufferProperties fbProperties;
 		fbProperties.Width = 1280.0f;
 		fbProperties.Height = 720.0f;
-		mFramebuffer = Ignition::Graphics::Framebuffer::Create(fbProperties);
+		mFramebuffer = Graphics::Framebuffer::Create(fbProperties);
+
+
+		mActiveScene = IGCreateRef<Scene::Scene>();
+
+		auto square = mActiveScene->CreateGameObject("Square");
+		square.AddComponent<Scene::SpriteRendererComponent>(rgb(255, 255, 255));
+		mSquareGO = square;
+
+		mCameraGO = mActiveScene->CreateGameObject("Camera");
+		mCameraGO.AddComponent<Scene::CameraComponent>();
 
 	}
 
@@ -26,20 +37,27 @@ namespace Ignition {
 
 	}
 
-	void EditorLayer::OnUpdate(Ignition::Util::DeltaTime dt) {
+	void EditorLayer::OnUpdate(Util::DeltaTime dt) {
 
+		if (Graphics::FramebufferProperties properties = mFramebuffer->GetProperties();
+			mViewportSize.x > 0.0f && 
+			mViewportSize.y > 0.0f && (
+				properties.Width != mViewportSize.x ||
+				properties.Height != mViewportSize.y ))
+		{
+			mFramebuffer->Resize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
+			mCameraContr.Resize(mViewportSize.x, mViewportSize.y);
+			mActiveScene->OnViewportResize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
+		}
+		
+		// Updates
 		mCameraContr.OnUpdate(dt);
 
 		mFramebuffer->Bind();
-		Ignition::Graphics::RenderCall::Clear(rgb(49, 51, 59));
-		Ignition::Graphics::Renderer2D::SceneBegin(mCameraContr.GetCamera());
+		Graphics::RenderCall::Clear(rgb(49, 51, 59));
 
-		//Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, rgb(255, 255, 0));
-		//Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 1.5f }, { 1.0f, 1.0f }, rgb(255, 0, 255));
-		//Ignition::Graphics::Renderer2D::DrawQuad({ 1.5f, 0.0f }, { 1.0f, 1.0f }, mTileSheet);
-		Ignition::Graphics::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, mFlower);
+		mActiveScene->OnUpdate(dt);
 
-		Ignition::Graphics::Renderer2D::SceneEnd();
 		mFramebuffer->Unbind();
 	}
 
@@ -75,15 +93,13 @@ namespace Ignition {
 		// Menu Bar
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Quit"))	Ignition::Core::Application::Get().Quit();
+				if (ImGui::MenuItem("Quit"))	Core::Application::Get().Quit();
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
 
 		ImGui::End();
-
-
 
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
@@ -93,23 +109,27 @@ namespace Ignition {
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
 			if (mViewportSize != *((glm::vec2*)&viewportSize)) {
-				mFramebuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 				mViewportSize = { viewportSize.x, viewportSize.y };
-				
-				mCameraContr.Resize(viewportSize.x, viewportSize.y);
+				mCameraContr.Resize(viewportSize.x, viewportSize.y); 
 			}
 
 			uint32_t textureID = mFramebuffer->GetColourAttachmentRendererID();
-			ImGui::Image((ImTextureID)textureID, ImVec2{ mViewportSize.x, mViewportSize.y }/*, ImVec2{0, 1}, ImVec2{1, 0}*/ );
+			ImGui::Image((ImTextureID)textureID, ImVec2{ mViewportSize.x, mViewportSize.y }, ImVec2{0, 1}, ImVec2{1, 0} );
 
 		}
 		ImGui::End();
 		ImGui::PopStyleVar();
 
+		if (ImGui::Begin("Properties")) {
+			auto& squareColour = mSquareGO.GetComponent<Scene::SpriteRendererComponent>().Colour;
+			ImGui::ColorEdit4("Colour", glm::value_ptr(squareColour));
+		}
+		ImGui::End();
+
 		ImGui::ShowDemoWindow();
 	}
 
-	void EditorLayer::OnEvent(Ignition::Events::Event& event) {
+	void EditorLayer::OnEvent(Events::Event& event) {
 		mCameraContr.OnEvent(event);
 	}
 }

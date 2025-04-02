@@ -27,6 +27,14 @@ namespace Ignition {
 
 		IGRef<Graphics::VertexArray> mSquareVA;
 
+
+
+
+		IGRef<Scene::Scene> mActiveScene;
+
+		Scene::GameObject mSquareGO;
+		Scene::GameObject mCameraGO;
+
 		glm::vec2 mViewportSize = { 0.0f, 0.0f };
 
 		IGColour mSquareColour = rgb(30, 30, 100);

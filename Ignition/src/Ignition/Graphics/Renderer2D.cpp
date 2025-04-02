@@ -100,6 +100,17 @@ namespace Ignition::Graphics {
 		delete[] sData.QuadVertexBufferBase;
 	}
 
+	void Renderer2D::SceneBegin(const Camera& camera, const glm::mat4& transform) {
+		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
+		
+		sData.Default2DShader->Bind();
+		sData.Default2DShader->UploadMatrix4f("u_ViewProjection", viewProjection);
+
+		sData.QuadIndexCount = 0;
+		sData.QuadVertexBufferPtr = sData.QuadVertexBufferBase;
+		sData.TextureSlotIndex = 1;
+	}
+
 	void Renderer2D::SceneBegin(const OrthoCamera& camera) {
 		sData.Default2DShader->Bind();
 		sData.Default2DShader->UploadMatrix4f("u_ViewProjection", camera.GetViewProjectionMatrix());

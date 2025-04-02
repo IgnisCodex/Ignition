@@ -4,6 +4,22 @@
 
 namespace Ignition::Graphics {
 
+	class Camera {
+	public:
+		Camera() = default;
+		Camera(const glm::mat4& projection)
+			: mProjection(projection)
+		{}
+
+		virtual ~Camera() = default;
+
+		const glm::mat4& GetProjection() const { return mProjection; }
+
+	protected:
+		glm::mat4 mProjection = glm::mat4(1.0f);
+	};
+
+
 	class OrthoCamera {
 	public:
 		OrthoCamera(float left, float right, float bottom, float top);

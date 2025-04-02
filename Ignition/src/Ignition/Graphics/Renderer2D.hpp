@@ -10,6 +10,8 @@ namespace Ignition::Graphics {
 		static void Init();
 		static void Terminate();
 
+		static void SceneBegin(const Camera& camera, const glm::mat4& transform);
+
 		static void SceneBegin(const OrthoCamera& camera);
 		static void SceneEnd();
 		static void Flush();

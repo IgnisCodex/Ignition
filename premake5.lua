@@ -13,6 +13,7 @@ INCLUDE_DIR["GLAD"] = "Ignition/vendor/GLAD/include"
 INCLUDE_DIR["ImGui"] = "Ignition/vendor/imgui"
 INCLUDE_DIR["GLM"] = "Ignition/vendor/glm"
 INCLUDE_DIR["STB"] = "Ignition/vendor/stb/include"
+INCLUDE_DIR["entt"] = "Ignition/vendor/entt/include"
 
 include "Ignition/vendor/GLFW"
 include "Ignition/vendor/GLAD"
@@ -46,6 +47,7 @@ project "Ignition"
         "%{INCLUDE_DIR.ImGui}",
         "%{INCLUDE_DIR.GLM}",
         "%{INCLUDE_DIR.STB}",
+        "%{INCLUDE_DIR.entt}"
     }
 
     links {
@@ -114,7 +116,8 @@ project "Sandbox"
         "Ignition/src",
         "Ignition/vendor/spdlog/include",
         "%{INCLUDE_DIR.GLM}",
-        "%{INCLUDE_DIR.ImGui}"
+        "%{INCLUDE_DIR.ImGui}",
+        "%{INCLUDE_DIR.entt}"
     }
 
     links {
@@ -170,7 +173,8 @@ project "Flint"
         "Ignition/src",
         "Ignition/vendor/spdlog/include",
         "%{INCLUDE_DIR.GLM}",
-        "%{INCLUDE_DIR.ImGui}"
+        "%{INCLUDE_DIR.ImGui}",
+        "%{INCLUDE_DIR.entt}"
     }
 
     links {

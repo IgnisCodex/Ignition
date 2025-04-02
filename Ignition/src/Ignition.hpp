@@ -10,7 +10,6 @@
 
 #include "Ignition/Debug/BlackBox.hpp"
 
-// Graphics
 #include "Ignition/Graphics/Buffers.hpp"
 #include "Ignition/Graphics/Camera.hpp"
 #include "Ignition/Graphics/CameraContr.hpp"
@@ -29,5 +28,10 @@
 #include "Ignition/Events/KeyboardEvent.hpp"
 #include "Ignition/Events/MouseEvent.hpp"
 
+#include "Ignition/Scene/Components.hpp"
+#include "Ignition/Scene/GameObject.hpp"
+#include "Ignition/Scene/Scene.hpp"
+
 #include "Ignition/UI/ImGuiLayer.hpp"
+
 #include "Ignition/Util/Colour.hpp"
