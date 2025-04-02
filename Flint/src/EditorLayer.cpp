@@ -31,6 +31,36 @@ namespace Ignition {
 		mCameraGO = mActiveScene->CreateGameObject("Camera");
 		mCameraGO.AddComponent<Scene::CameraComponent>();
 
+		class CameraContr : public Scene::ScriptableGameObject {
+		public:
+			void OnCreate() {
+				
+			}
+
+			void OnDestroy() {
+
+			}
+
+			void OnUpdate(Util::DeltaTime dt) {
+				auto& transform = GetComponent<Scene::TransformComponent>().Transform;
+				float speed = 5.0f;
+
+				if (Core::Input::IsKeyPressed(IG_KEY_W))
+					transform[3][1] += speed * dt.s();
+
+				else if (Core::Input::IsKeyPressed(IG_KEY_S))
+					transform[3][1] -= speed * dt.s();
+
+
+				if (Core::Input::IsKeyPressed(IG_KEY_D))
+					transform[3][0] += speed * dt.s();
+
+				else if (Core::Input::IsKeyPressed(IG_KEY_A))
+					transform[3][0] -= speed * dt.s();
+			}
+		};
+
+		mCameraGO.AddComponent<Scene::NativeScriptComponent>().Bind<CameraContr>();
 	}
 
 	void EditorLayer::OnDetach() {

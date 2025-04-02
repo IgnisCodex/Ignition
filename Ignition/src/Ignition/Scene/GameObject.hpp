@@ -39,4 +39,24 @@ namespace Ignition::Scene {
 		entt::entity mGameObjectHandle = entt::null;
 		Scene* mScene = nullptr;
 	};
+
+
+	class ScriptableGameObject {
+	public:
+		virtual ~ScriptableGameObject() {}
+
+		template<typename T>
+		T& GetComponent() {
+			return mGameObject.GetComponent<T>();
+		}
+
+	protected:
+		virtual void OnCreate() {}
+		virtual void OnDestroy() {}
+		virtual void OnUpdate(Util::DeltaTime dt) {}
+
+	private:
+		GameObject mGameObject;
+		friend class Scene;
+	};
 }

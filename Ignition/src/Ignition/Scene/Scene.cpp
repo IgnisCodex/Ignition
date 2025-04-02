@@ -23,12 +23,25 @@ namespace Ignition::Scene {
 
 	void Scene::OnUpdate(Util::DeltaTime dt) {
 
+		{
+			mRegistry.view<NativeScriptComponent>().each(
+				[=](auto go, auto& nsc) {
+					if (!nsc.Instance) {
+						nsc.Instance = nsc.CreateInstance();
+						nsc.Instance->mGameObject = GameObject{ go, this };
+						nsc.Instance->OnCreate();
+					}
+
+					nsc.Instance->OnUpdate(dt);
+				});
+		}
+
 		Graphics::Camera* activeCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
 			auto view = mRegistry.view<TransformComponent, CameraComponent>();
 			for (auto go : view) {
-				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(go);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(go);
 
 				if (camera.Active) {
 					activeCamera = &camera.Camera;
@@ -43,7 +56,7 @@ namespace Ignition::Scene {
 
 			auto group = mRegistry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto go : group) {
-				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(go);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(go);
 
 				Graphics::Renderer2D::DrawQuad(transform, sprite.Colour);
 			}

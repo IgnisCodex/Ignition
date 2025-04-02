@@ -2,6 +2,7 @@
 
 #include "Ignition/API.hpp"
 #include "Ignition/Scene/SceneCamera.hpp"
+#include "Ignition/Scene/GameObject.hpp"
 
 #include <glm/glm.hpp>
 
@@ -47,5 +48,18 @@ namespace Ignition::Scene {
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct NativeScriptComponent {
+		ScriptableGameObject* Instance = nullptr;
+
+		ScriptableGameObject*(*CreateInstance)();
+		void (*DestroyInstance)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind() {
+			CreateInstance = []() { return static_cast<ScriptableGameObject*>(new T()); };
+			DestroyInstance = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+		}
 	};
 }
