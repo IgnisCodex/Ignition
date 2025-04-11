@@ -20,7 +20,7 @@ namespace Ignition::Core {
 		{}
 	};
 
-	class IGNITION_API Window {
+	class Window {
 	public:
 		using EventCallback = std::function<void(Events::Event&)>;
 

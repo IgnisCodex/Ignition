@@ -3,7 +3,7 @@
 #include "Ignition/API.hpp"
 
 namespace Ignition::Core {
-	class IGNITION_API Input {
+	class Input {
 	public:
 		static bool IsKeyPressed(int keycode);
 

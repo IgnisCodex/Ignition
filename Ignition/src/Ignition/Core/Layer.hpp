@@ -7,7 +7,7 @@
 #include "Ignition/Util/Time.hpp"
 
 namespace Ignition::Core {
-	class IGNITION_API Layer {
+	class Layer {
 	public:
 		Layer(const std::string& debugName = "Layer");
 		virtual ~Layer();

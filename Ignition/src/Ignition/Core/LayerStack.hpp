@@ -7,7 +7,7 @@
 #include "Ignition/API.hpp"
 
 namespace Ignition::Core {
-	class IGNITION_API LayerStack {
+	class LayerStack {
 	public:
 		LayerStack();
 		~LayerStack();

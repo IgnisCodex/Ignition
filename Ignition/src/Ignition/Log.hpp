@@ -7,7 +7,7 @@
 #include "spdlog/fmt/ostr.h"
 
 namespace Ignition {
-	class IGNITION_API Log {
+	class Log {
 	public:
 		static void Init();
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }

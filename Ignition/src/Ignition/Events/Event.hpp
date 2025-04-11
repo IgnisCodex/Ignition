@@ -43,7 +43,7 @@ namespace Ignition::Events {
 
 #define EVENT_CATEGORY(category) virtual EventCategory GetCategory() const override { return category; }
 
-	class IGNITION_API Event {
+	class Event {
 		friend class EventDispatcher;
 	public:
 		virtual ~Event() = default;

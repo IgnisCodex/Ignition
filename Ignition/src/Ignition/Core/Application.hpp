@@ -15,7 +15,7 @@
 #include "Ignition/Util/Time.hpp"
 
 namespace Ignition::Core {
-	class IGNITION_API Application {
+	class Application {
 	public:
 		Application(const std::string& name = "Ignition");
 		virtual ~Application();

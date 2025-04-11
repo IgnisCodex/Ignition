@@ -5,12 +5,12 @@
 #include "Ignition/Log.hpp"
 
 namespace Ignition::Events {
-	class IGNITION_API ApplicationEvent : public Event {
+	class ApplicationEvent : public Event {
 	public:
 		EVENT_CATEGORY(EventCategory::Application)
 	};
 
-	class IGNITION_API WindowResizeEvent : public ApplicationEvent {
+	class WindowResizeEvent : public ApplicationEvent {
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
 			: mWidth(width)
@@ -32,7 +32,7 @@ namespace Ignition::Events {
 		unsigned int mWidth, mHeight;
 	};
 
-	class IGNITION_API WindowCloseEvent : public ApplicationEvent {
+	class WindowCloseEvent : public ApplicationEvent {
 	public:
 		WindowCloseEvent() {}
 

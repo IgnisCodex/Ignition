@@ -1,212 +1,39 @@
-workspace "Ignition"
-    architecture "x64"
-    configurations {
-        "Debug", "Release", "Dist"
-    }
-    startproject "Sandbox"
-
 OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-INCLUDE_DIR = {}
-INCLUDE_DIR["GLFW"] = "Ignition/vendor/GLFW/include"
-INCLUDE_DIR["GLAD"] = "Ignition/vendor/GLAD/include"
-INCLUDE_DIR["ImGui"] = "Ignition/vendor/imgui"
-INCLUDE_DIR["GLM"] = "Ignition/vendor/glm"
-INCLUDE_DIR["STB"] = "Ignition/vendor/stb/include"
-INCLUDE_DIR["entt"] = "Ignition/vendor/entt/include"
+include "dependencies.lua"
 
-include "Ignition/vendor/GLFW"
-include "Ignition/vendor/GLAD"
-include "Ignition/vendor/imgui"
+workspace "Ignition"
+	architecture "x86_64"
+	startproject "Ignition"
 
-project "Ignition"
-    location "Ignition"
-    kind "StaticLib"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "on"
+	configurations
+	{
+		"Debug",
+		"Release",
+		"Dist"
+	}
 
-    targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
-    objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
-    pchheader "IGPCH.hpp"
-    pchsource "%{prj.name}/src/IGPCH.cpp"
+group "Dependencies"
+	-- include "vendor/premake"
+	include "Ignition/vendor/GLFW"
+	include "Ignition/vendor/Glad"
+	include "Ignition/vendor/imgui"
+	-- include "Ignition/vendor/yaml-cpp"
+group ""
 
-    files {
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp",
-        "%{INCLUDE_DIR.STB}/**.h",
-        "%{INCLUDE_DIR.STB}/**.cpp",
-    }
+group "Core"
+	include "Ignition"
+group ""
 
-    includedirs {
-        "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include",
-        "%{INCLUDE_DIR.GLFW}",
-        "%{INCLUDE_DIR.GLAD}",
-        "%{INCLUDE_DIR.ImGui}",
-        "%{INCLUDE_DIR.GLM}",
-        "%{INCLUDE_DIR.STB}",
-        "%{INCLUDE_DIR.entt}"
-    }
+group "Tools"
+	include "Flint"
+group ""
 
-    links {
-        "GLFW",
-        "GLAD",
-        "ImGui",
-        "opengl32.lib"
-    }
-
-    defines {
-        "GLFW_INCLUDE_NONE",
-        "_CRT_SECURE_NO_WARNINGS",
-        
-
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-        defines {
-            "IG_PLATFORM_WINDOWS",
-            "IG_BUILD_DLL"
-        }
-
-        buildoptions {
-            "/utf-8"
-        }
-
-    filter "configurations:Debug"
-        defines { "IG_CONFIG_DEBUG" }  
-        symbols "on"
-        runtime "Debug"
-
-    filter "configurations:Release"  
-        defines { "IG_CONFIG_RELEASE" }    
-        optimize "on"
-        runtime "Release"
-        
-    filter "configurations:Dist"  
-        defines { "IG_CONFIG_DIST" }    
-        optimize "on"
-        runtime "Release"
-
-    filter "files:**/vendor/spdlog/**"
-        warnings "Off" -- Completely disables warnings for spdlog
-
-        
-
-
-project "Sandbox"
-    location "Sandbox"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "on"
-
-    targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
-    objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
-
-    files {
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp"
-    }
-
-    includedirs {
-        "Ignition/src",
-        "Ignition/vendor/spdlog/include",
-        "%{INCLUDE_DIR.GLM}",
-        "%{INCLUDE_DIR.ImGui}",
-        "%{INCLUDE_DIR.entt}"
-    }
-
-    links {
-        "Ignition"
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-        defines {
-            "IG_PLATFORM_WINDOWS"
-        }
-
-        buildoptions {
-            "/utf-8"
-        }
-
-    filter "configurations:Debug"
-        defines { "IG_CONFIG_DEBUG" }  
-        symbols "on"
-        runtime "Debug"
-
-    filter "configurations:Release"  
-        defines { "IG_CONFIG_RELEASE" }    
-        optimize "on"
-        runtime "Release"
-
-    filter "configurations:Dist"  
-        defines { "IG_CONFIG_DIST" }    
-        optimize "on"
-        runtime "Release"
-
-        
-    filter "files:**/vendor/spdlog/**"
-        warnings "Off" -- Completely disables warnings for spdlog
-
-project "Flint"
-    location "Flint"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "on"
-
-    targetdir ("build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
-    objdir ("build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
-
-    files {
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp"
-    }
-
-    includedirs {
-        "Ignition/src",
-        "Ignition/vendor/spdlog/include",
-        "%{INCLUDE_DIR.GLM}",
-        "%{INCLUDE_DIR.ImGui}",
-        "%{INCLUDE_DIR.entt}"
-    }
-
-    links {
-        "Ignition"
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-        defines {
-            "IG_PLATFORM_WINDOWS"
-        }
-
-        buildoptions {
-            "/utf-8"
-        }
-
-    filter "configurations:Debug"
-        defines { "IG_CONFIG_DEBUG" }  
-        symbols "on"
-        runtime "Debug"
-
-    filter "configurations:Release"  
-        defines { "IG_CONFIG_RELEASE" }    
-        optimize "on"
-        runtime "Release"
-
-    filter "configurations:Dist"  
-        defines { "IG_CONFIG_DIST" }    
-        optimize "on"
-        runtime "Release"
-
-        
-    filter "files:**/vendor/spdlog/**"
-        warnings "Off" -- Completely disables warnings for spdlog
+group "Misc"
+	include "Sandbox"
+group ""

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <imgui.h>
 
 namespace Ignition::Util {
 	glm::vec4 rgb(glm::vec3 colour);

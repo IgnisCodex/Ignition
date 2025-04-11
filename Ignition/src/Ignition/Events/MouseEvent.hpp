@@ -3,12 +3,12 @@
 #include "Ignition/Events/Event.hpp"
 
 namespace Ignition::Events {
-	class IGNITION_API MouseEvent : public Event {
+	class MouseEvent : public Event {
 	public:
 		EVENT_CATEGORY(EventCategory::Input)
 	};
 
-	class IGNITION_API MouseMovedEvent : public MouseEvent {
+	class MouseMovedEvent : public MouseEvent {
 	public:
 		MouseMovedEvent(float x, float y)
 			: mX(x)
@@ -29,7 +29,7 @@ namespace Ignition::Events {
 		float mX, mY;
 	};
 
-	class IGNITION_API MouseScrollEvent : public MouseEvent {
+	class MouseScrollEvent : public MouseEvent {
 	public:
 		MouseScrollEvent(float xOffset, float yOffset)
 			: mXOffset(xOffset)
@@ -50,7 +50,7 @@ namespace Ignition::Events {
 		float mXOffset, mYOffset;
 	};
 
-	class IGNITION_API MouseButtonEvent : public MouseEvent {
+	class MouseButtonEvent : public MouseEvent {
 	public:
 		inline int GetMouseButton() const { return mButton; }
 
@@ -62,7 +62,7 @@ namespace Ignition::Events {
 		int mButton;
 	};
 
-	class IGNITION_API MouseButtonPressedEvent : public MouseButtonEvent {
+	class MouseButtonPressedEvent : public MouseButtonEvent {
 	public:
 		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button)
@@ -77,7 +77,7 @@ namespace Ignition::Events {
 		EVENT_TYPE(EventType::MouseButtonPressed)
 	};
 
-	class IGNITION_API MouseButtonReleasedEvent : public MouseButtonEvent {
+	class MouseButtonReleasedEvent : public MouseButtonEvent {
 	public:
 		MouseButtonReleasedEvent(int button)
 			: MouseButtonEvent(button)

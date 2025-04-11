@@ -4,7 +4,7 @@
 #include "Ignition/Events/Event.hpp"
 
 namespace Ignition::Events {
-	class IGNITION_API KeyboardEvent : public Event {
+	class KeyboardEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return mKeyCode; }
 		EVENT_CATEGORY(EventCategory::Input)
@@ -17,7 +17,7 @@ namespace Ignition::Events {
 		int mKeyCode;
 	};
 
-	class IGNITION_API KeyPressedEvent : public KeyboardEvent {
+	class KeyPressedEvent : public KeyboardEvent {
 	public:
 		KeyPressedEvent(int key, int repeat)
 			: KeyboardEvent(key)
@@ -38,7 +38,7 @@ namespace Ignition::Events {
 		int mRepeatedKeyCount;
 	};
 
-	class IGNITION_API KeyReleasedEvent : public KeyboardEvent {
+	class KeyReleasedEvent : public KeyboardEvent {
 	public:
 		KeyReleasedEvent(int key)
 			: KeyboardEvent(key)
