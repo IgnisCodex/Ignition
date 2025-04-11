@@ -34,6 +34,11 @@ namespace Ignition::Scene {
 		}
 
 		operator bool() const { return mGameObjectHandle != entt::null; }
+		operator uint32_t() const { return (uint32_t)mGameObjectHandle; }
+		operator entt::entity() const { return mGameObjectHandle; }
+
+		bool operator==(const GameObject& other) const { return mGameObjectHandle == other.mGameObjectHandle && mScene == other.mScene; }
+		bool operator!=(const GameObject& other) const { return !(*this == other); }
 
 	private:
 		entt::entity mGameObjectHandle = entt::null;

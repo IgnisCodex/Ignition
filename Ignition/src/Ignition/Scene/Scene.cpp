@@ -21,6 +21,10 @@ namespace Ignition::Scene {
 		return go;
 	}
 
+	void Scene::DeleteGameObject(GameObject go) {
+		mRegistry.destroy(go);
+	}
+
 	void Scene::OnUpdate(Util::DeltaTime dt) {
 
 		{
@@ -37,7 +41,7 @@ namespace Ignition::Scene {
 		}
 
 		Graphics::Camera* activeCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		glm::mat4 cameraTransform;
 		{
 			auto view = mRegistry.view<TransformComponent, CameraComponent>();
 			for (auto go : view) {
@@ -45,20 +49,20 @@ namespace Ignition::Scene {
 
 				if (camera.Active) {
 					activeCamera = &camera.Camera;
-					cameraTransform = &transform.Transform;
+					cameraTransform = transform.GetTransform();
 					break;
 				}
 			}
 		}
 
 		if (activeCamera) {
-			Graphics::Renderer2D::SceneBegin(activeCamera->GetProjection(), *cameraTransform);
+			Graphics::Renderer2D::SceneBegin(*activeCamera, cameraTransform);
 
 			auto group = mRegistry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto go : group) {
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(go);
 
-				Graphics::Renderer2D::DrawQuad(transform, sprite.Colour);
+				Graphics::Renderer2D::DrawQuad(transform.GetTransform(), sprite.Colour);
 			}
 
 			Graphics::Renderer2D::SceneEnd();

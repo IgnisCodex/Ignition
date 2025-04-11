@@ -2,6 +2,8 @@
 
 #include <Ignition.hpp>
 
+#include "UI/SceneTree.hpp"
+
 namespace Ignition {
 	class EditorLayer : public Ignition::Core::Layer {
 	public:
@@ -39,5 +41,9 @@ namespace Ignition {
 
 		IGColour mSquareColour = rgb(30, 30, 100);
 		IGColour mTint = rgb(0, 0, 255);
+
+
+		// UI
+		UI::SceneTree mSceneTree;
 	};
 }

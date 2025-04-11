@@ -9,9 +9,21 @@ namespace Ignition::Scene {
 	}
 
 	void SceneCamera::SetOrtho(float size, float nearClip, float farClip) {
-		mOrthographicSize = size;
-		mOrthographicNear = nearClip;
-		mOrthographicFar = farClip;
+		mProjectionType = ProjectionType::Orthographic;
+		
+		mOrthoSize = size;
+		mOrthoNear = nearClip;
+		mOrthoFar = farClip;
+
+		RecalculateProjection();
+	}
+
+	void SceneCamera::SetPersp(float vfov, float nearClip, float farClip) {
+		mProjectionType = ProjectionType::Perspective;
+
+		mPerspFOV = vfov;
+		mPerspNear = nearClip;
+		mPerspFar = farClip;
 
 		RecalculateProjection();
 	}
@@ -22,11 +34,16 @@ namespace Ignition::Scene {
 	}
 
 	void SceneCamera::RecalculateProjection() {
-		float left = -mOrthographicSize * mAspectRatio * 0.5f;
-		float right = mOrthographicSize * mAspectRatio * 0.5f;
-		float bottom = -mOrthographicSize * 0.5f;
-		float top = mOrthographicSize * 0.5f;
+		if (mProjectionType == ProjectionType::Perspective) {
+			mProjection = glm::perspective(mPerspFOV, mAspectRatio, mPerspNear, mPerspFar);
 
-		mProjection = glm::ortho(left, right, bottom, top, mOrthographicNear, mOrthographicFar);
+		} else {
+			float left = -mOrthoSize * mAspectRatio * 0.5f;
+			float right = mOrthoSize * mAspectRatio * 0.5f;
+			float bottom = -mOrthoSize * 0.5f;
+			float top = mOrthoSize * 0.5f;
+
+			mProjection = glm::ortho(left, right, bottom, top, mOrthoNear, mOrthoFar);
+		}
 	}
 }

@@ -13,9 +13,12 @@ namespace Ignition::Scene {
 		~Scene();
 
 		GameObject CreateGameObject(const std::string& name = "");
+		void DeleteGameObject(GameObject go);
 		
 		void OnUpdate(Util::DeltaTime dt);
 		void OnViewportResize(uint32_t width, uint32_t height);
+
+		entt::registry& GetRegistry() { return mRegistry; }
 
 	private:
 		uint32_t mViewportWidth = 0, mViewportHeight = 0;

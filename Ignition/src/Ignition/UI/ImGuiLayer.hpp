@@ -16,6 +16,9 @@ namespace Ignition::UI {
 		void Begin();
 		void End();
 
+		void SetStyle();
+		void SetDarkTheme();
+
 	private:
 		float mTime = 0.0f;
 	};

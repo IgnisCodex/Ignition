@@ -13,11 +13,13 @@ namespace Ignition::Util {
 		);
 
 		return glm::vec4(colour.r / 255.0f, colour.g / 255.0f, colour.b / 255.0f, 1.0f);
+
 	}
 
 	glm::vec4 rgb(float r, float g, float b) {
 		return rgb({ r, g, b });
 	}
+
 
 	glm::vec4 rgba(glm::vec4 colour) {
 		IG_CORE_ASSERT(

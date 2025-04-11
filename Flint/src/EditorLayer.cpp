@@ -42,25 +42,29 @@ namespace Ignition {
 			}
 
 			void OnUpdate(Util::DeltaTime dt) {
-				auto& transform = GetComponent<Scene::TransformComponent>().Transform;
-				float speed = 5.0f;
+				auto& active = GetComponent<Scene::CameraComponent>().Active;
+				if (active) {
+					auto& translation = GetComponent<Scene::TransformComponent>().Translation;
+					float speed = 5.0f;
 
-				if (Core::Input::IsKeyPressed(IG_KEY_W))
-					transform[3][1] += speed * dt.s();
+					if (Core::Input::IsKeyPressed(IG_KEY_W))
+						translation.y += speed * dt.s();
 
-				else if (Core::Input::IsKeyPressed(IG_KEY_S))
-					transform[3][1] -= speed * dt.s();
+					else if (Core::Input::IsKeyPressed(IG_KEY_S))
+						translation.y -= speed * dt.s();
 
 
-				if (Core::Input::IsKeyPressed(IG_KEY_D))
-					transform[3][0] += speed * dt.s();
+					if (Core::Input::IsKeyPressed(IG_KEY_D))
+						translation.x += speed * dt.s();
 
-				else if (Core::Input::IsKeyPressed(IG_KEY_A))
-					transform[3][0] -= speed * dt.s();
+					else if (Core::Input::IsKeyPressed(IG_KEY_A))
+						translation.x -= speed * dt.s();
+				}
 			}
 		};
 
 		mCameraGO.AddComponent<Scene::NativeScriptComponent>().Bind<CameraContr>();
+		mSceneTree.SetContext(mActiveScene);
 	}
 
 	void EditorLayer::OnDetach() {
@@ -84,7 +88,7 @@ namespace Ignition {
 		mCameraContr.OnUpdate(dt);
 
 		mFramebuffer->Bind();
-		Graphics::RenderCall::Clear(rgb(49, 51, 59));
+		Graphics::RenderCall::Clear(rgb(25, 30, 32));
 
 		mActiveScene->OnUpdate(dt);
 
@@ -150,13 +154,9 @@ namespace Ignition {
 		ImGui::End();
 		ImGui::PopStyleVar();
 
-		if (ImGui::Begin("Properties")) {
-			auto& squareColour = mSquareGO.GetComponent<Scene::SpriteRendererComponent>().Colour;
-			ImGui::ColorEdit4("Colour", glm::value_ptr(squareColour));
-		}
-		ImGui::End();
-
 		ImGui::ShowDemoWindow();
+
+		mSceneTree.OnImGuiRender();
 	}
 
 	void EditorLayer::OnEvent(Events::Event& event) {
