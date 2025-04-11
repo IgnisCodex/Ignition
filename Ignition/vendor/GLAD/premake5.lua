@@ -3,6 +3,7 @@ project "GLAD"
 	language "C"
 	staticruntime "on"
 
+    
 	targetdir ("%{wks.location}/build/bin/" .. OUTPUT_DIR .. "/%{prj.name}")
 	objdir ("%{wks.location}/build/int/" .. OUTPUT_DIR .. "/%{prj.name}")
 
