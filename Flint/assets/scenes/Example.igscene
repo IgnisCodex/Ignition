@@ -1,0 +1,29 @@
+Scene: Untitled
+Objects:
+  - Object: 123456789
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspVFOV: 0.7853982
+        PerspNear: 1000
+        PerspFar: 1000
+        OrthoSize: 10
+        OrthoNear: -1
+        OrthoFar: 1
+      Active: true
+      FixedAspectRatio: false
+  - Object: 123456789
+    TagComponent:
+      Tag: Square
+    TransformComponent:
+      Translation: [1.7, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Colour: [0.23021983, 0.7679325, 0.15229039, 1]

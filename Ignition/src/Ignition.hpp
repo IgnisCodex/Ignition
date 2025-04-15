@@ -31,6 +31,7 @@
 #include "Ignition/Scene/Components.hpp"
 #include "Ignition/Scene/GameObject.hpp"
 #include "Ignition/Scene/Scene.hpp"
+#include "Ignition/Scene/Serialiser.hpp"
 
 #include "Ignition/UI/ImGuiLayer.hpp"
 

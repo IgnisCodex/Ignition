@@ -26,5 +26,6 @@ namespace Ignition::Scene {
 		entt::registry mRegistry;
 
 		friend class GameObject;
+		friend class Serialiser;
 	};
 }

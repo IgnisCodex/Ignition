@@ -23,7 +23,7 @@ group "Dependencies"
 	include "Ignition/vendor/GLFW"
 	include "Ignition/vendor/Glad"
 	include "Ignition/vendor/imgui"
-	-- include "Ignition/vendor/yaml-cpp"
+	include "Ignition/vendor/yaml-cpp"
 group ""
 
 group "Core"

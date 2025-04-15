@@ -21,8 +21,9 @@ namespace Ignition {
 		fbProperties.Height = 720.0f;
 		mFramebuffer = Graphics::Framebuffer::Create(fbProperties);
 
-
 		mActiveScene = IGCreateRef<Scene::Scene>();
+
+		/*
 
 		auto square = mActiveScene->CreateGameObject("Square");
 		square.AddComponent<Scene::SpriteRendererComponent>(rgb(255, 255, 255));
@@ -64,6 +65,9 @@ namespace Ignition {
 		};
 
 		mCameraGO.AddComponent<Scene::NativeScriptComponent>().Bind<CameraContr>();
+
+		*/
+
 		mSceneTree.SetContext(mActiveScene);
 	}
 
@@ -127,6 +131,22 @@ namespace Ignition {
 		// Menu Bar
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
+				if (ImGui::MenuItem("New", 0, false, false));
+
+				if (ImGui::MenuItem("Serialise")) {
+					Scene::Serialiser serialiser(mActiveScene);
+					serialiser.SerialiseYAML("assets/scenes/Example.igscene");
+				}
+				
+				// TEMP: !mUsed -> atm the deserialise function adds to the scene without clearing it
+				if (ImGui::MenuItem("Deserialise", 0, false, !mUsed)) {
+					Scene::Serialiser serialiser(mActiveScene);
+					serialiser.DeserialiseYAML("assets/scenes/Example.igscene");
+					mUsed = true;
+				}
+
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Quit"))	Core::Application::Get().Quit();
 				ImGui::EndMenu();
 			}

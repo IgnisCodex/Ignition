@@ -43,6 +43,9 @@ namespace Ignition {
 		IGColour mTint = rgb(0, 0, 255);
 
 
+		// TEMP:
+		bool mUsed = false;
+
 		// UI
 		UI::SceneTree mSceneTree;
 	};

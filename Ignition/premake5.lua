@@ -23,7 +23,8 @@ project "Ignition"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		"YAML_CPP_STATIC_DEFINE"
 	}
 
 	includedirs
@@ -36,7 +37,7 @@ project "Ignition"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		-- "%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links
@@ -44,7 +45,7 @@ project "Ignition"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		-- "yaml-cpp",
+		"yaml-cpp",
 		"opengl32.lib",
 	}
 
