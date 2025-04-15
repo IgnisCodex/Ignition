@@ -6,9 +6,7 @@
 #include "Ignition/Scene/GameObject.hpp"
 
 namespace Ignition::Scene {
-	Scene::Scene() {
-		entt::entity go = mRegistry.create();
-	}
+	Scene::Scene() {}
 
 	Scene::~Scene() {}
 
