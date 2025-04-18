@@ -9,6 +9,7 @@ namespace Ignition::Scene {
 	public:
 		GameObject() = default;
 		GameObject(entt::entity handle, Scene* scene);
+		GameObject(const GameObject& other) = default;
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args) {

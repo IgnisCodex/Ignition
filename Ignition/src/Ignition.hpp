@@ -36,3 +36,4 @@
 #include "Ignition/UI/ImGuiLayer.hpp"
 
 #include "Ignition/Util/Colour.hpp"
+#include "Ignition/Util/PlatformUtils.hpp"

@@ -18,6 +18,9 @@ namespace Ignition {
 		virtual void OnEvent(Events::Event& event) override;
 
 	private:
+		bool OnKeyPressed(Events::KeyPressedEvent& event);
+
+	private:
 		Graphics::OrthoCameraContr mCameraContr;
 
 		IGRef<Graphics::Shader> mFlatColourShader;

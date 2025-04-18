@@ -7,10 +7,12 @@
 namespace Ignition::UI {
 	SceneTree::SceneTree(const IGRef<Scene::Scene>& context) {
 		SetContext(context);
+		
 	}
 
 	void SceneTree::SetContext(const IGRef<Scene::Scene>& context) {
 		mSceneContext = context;
+		mSelectedGameObjectContext = {};
 	}
 
 	void SceneTree::OnImGuiRender() {

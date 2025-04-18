@@ -1,6 +1,5 @@
 #include "EditorLayer.hpp"
 
-#include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -17,8 +16,8 @@ namespace Ignition {
 		mFlower = Graphics::SubTexture2D::Create(mTileSheet, glm::vec2(6, 6), glm::vec2(20, 20));
 
 		Graphics::FramebufferProperties fbProperties;
-		fbProperties.Width = 1280.0f;
-		fbProperties.Height = 720.0f;
+		fbProperties.Width = 1280;
+		fbProperties.Height = 720;
 		mFramebuffer = Graphics::Framebuffer::Create(fbProperties);
 
 		mActiveScene = IGCreateRef<Scene::Scene>();
@@ -76,6 +75,8 @@ namespace Ignition {
 	}
 
 	void EditorLayer::OnUpdate(Util::DeltaTime dt) {
+		
+		mActiveScene->OnViewportResize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
 
 		if (Graphics::FramebufferProperties properties = mFramebuffer->GetProperties();
 			mViewportSize.x > 0.0f && 
@@ -85,11 +86,10 @@ namespace Ignition {
 		{
 			mFramebuffer->Resize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
 			mCameraContr.Resize(mViewportSize.x, mViewportSize.y);
-			mActiveScene->OnViewportResize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
 		}
 		
 		// Updates
-		mCameraContr.OnUpdate(dt);
+		//mCameraContr.OnUpdate(dt); 
 
 		mFramebuffer->Bind();
 		Graphics::RenderCall::Clear(rgb(25, 30, 32));
@@ -97,6 +97,7 @@ namespace Ignition {
 		mActiveScene->OnUpdate(dt);
 
 		mFramebuffer->Unbind();
+
 	}
 
 	void EditorLayer::OnImGuiRender() {
@@ -131,20 +132,39 @@ namespace Ignition {
 		// Menu Bar
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("New", 0, false, false));
+				if (ImGui::MenuItem("New", "Ctrl+N")) {
+					mActiveScene = IGCreateRef<Scene::Scene>();
+					mActiveScene->OnViewportResize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
+					mSceneTree.SetContext(mActiveScene);
+				}
 
-				if (ImGui::MenuItem("Serialise")) {
-					Scene::Serialiser serialiser(mActiveScene);
-					serialiser.SerialiseYAML("assets/scenes/Example.igscene");
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Open...", "Ctrl+O")) {
+					std::string filepath = Util::FileDialog::OpenFile("Ignition Scene (*.igscene)\0*.igscene\0");
+					if (!filepath.empty()) {
+						mActiveScene = IGCreateRef<Scene::Scene>();
+						mSceneTree.SetContext(mActiveScene);
+
+						Scene::Serialiser serialiser(mActiveScene);
+						serialiser.DeserialiseYAML(filepath);
+
+						mActiveScene->OnViewportResize((uint32_t)mViewportSize.x, (uint32_t)mViewportSize.y);
+					}
+				}
+
+				if (ImGui::BeginMenu("Open Recent", false));
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) {
+					std::string filepath = Util::FileDialog::SaveFile("Ignition Scene (*.igscene)\0*.igscene\0");
+					if (!filepath.empty()) {
+						Scene::Serialiser serialiser(mActiveScene);
+						serialiser.SerialiseYAML(filepath);
+					}
 				}
 				
-				// TEMP: !mUsed -> atm the deserialise function adds to the scene without clearing it
-				if (ImGui::MenuItem("Deserialise", 0, false, !mUsed)) {
-					Scene::Serialiser serialiser(mActiveScene);
-					serialiser.DeserialiseYAML("assets/scenes/Example.igscene");
-					mUsed = true;
-				}
-
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Quit"))	Core::Application::Get().Quit();
@@ -161,17 +181,13 @@ namespace Ignition {
 
 			
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-
-			if (mViewportSize != *((glm::vec2*)&viewportSize)) {
-				mViewportSize = { viewportSize.x, viewportSize.y };
-				mCameraContr.Resize(viewportSize.x, viewportSize.y); 
-			}
+			mViewportSize = { viewportSize.x, viewportSize.y };
 
 			uint32_t textureID = mFramebuffer->GetColourAttachmentRendererID();
 			ImGui::Image((ImTextureID)textureID, ImVec2{ mViewportSize.x, mViewportSize.y }, ImVec2{0, 1}, ImVec2{1, 0} );
 
-		}
 		ImGui::End();
+		}
 		ImGui::PopStyleVar();
 
 		ImGui::ShowDemoWindow();
@@ -181,5 +197,16 @@ namespace Ignition {
 
 	void EditorLayer::OnEvent(Events::Event& event) {
 		mCameraContr.OnEvent(event);
+
+		Events::EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<Events::KeyPressedEvent>(IG_BIND_EVENT(EditorLayer::OnKeyPressed));
 	}
+
+	bool EditorLayer::OnKeyPressed(Events::KeyPressedEvent& event) {
+		//switch (event.GetKeyCode())
+
+		return false;
+	}
+
+
 }
