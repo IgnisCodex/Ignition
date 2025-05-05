@@ -34,7 +34,7 @@ namespace Ignition::Scene {
 		void SetPersp(float vfov, float nearClip, float farClip);
 		void SetPerspVFOV(float vfov) { mPerspFOV = vfov; RecalculateProjection(); }
 		void SetPerspNearClip(float nearClip) { mPerspNear = nearClip; RecalculateProjection(); }
-		void SetPerspFarClip(float farClip) { mPerspNear = farClip; RecalculateProjection(); }
+		void SetPerspFarClip(float farClip) { mPerspFar = farClip; RecalculateProjection(); }
 
 		void SetViewportSize(uint32_t width, uint32_t height);
 		void SetProjectionType(ProjectionType type) { mProjectionType = type; RecalculateProjection(); }

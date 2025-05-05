@@ -29,7 +29,7 @@
 #include "Ignition/Events/MouseEvent.hpp"
 
 #include "Ignition/Scene/Components.hpp"
-#include "Ignition/Scene/GameObject.hpp"
+#include "Ignition/Scene/Object.hpp"
 #include "Ignition/Scene/Scene.hpp"
 #include "Ignition/Scene/Serialiser.hpp"
 

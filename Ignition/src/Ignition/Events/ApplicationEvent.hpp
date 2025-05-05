@@ -7,7 +7,7 @@
 namespace Ignition::Events {
 	class ApplicationEvent : public Event {
 	public:
-		EVENT_CATEGORY(EventCategory::Application)
+		EVENT_CATEobjRY(EventCateobjry::Application)
 	};
 
 	class WindowResizeEvent : public ApplicationEvent {

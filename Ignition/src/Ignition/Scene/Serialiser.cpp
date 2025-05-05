@@ -3,7 +3,7 @@
 
 #include "Ignition/Scene/SceneCamera.hpp"
 #include "Ignition/Scene/Components.hpp"
-#include "Ignition/Scene/GameObject.hpp"
+#include "Ignition/Scene/Object.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -70,23 +70,23 @@ namespace Ignition::Scene {
 		: mScene(scene)
 	{}
 
-	static void SerialiseObject(YAML::Emitter& out, GameObject go) {
+	static void SerialiseObject(YAML::Emitter& out, Object obj) {
 		out << YAML::BeginMap;
 		out << YAML::Key << "Object" << YAML::Value << "123456789"; // UUID;
 
-		if (go.HasComponent<TagComponent>()) {
+		if (obj.HasComponent<TagComponent>()) {
 			out << YAML::Key << "TagComponent" << YAML::BeginMap;
 
-			auto& tag = go.GetComponent<TagComponent>().Tag;
+			auto& tag = obj.GetComponent<TagComponent>().Tag;
 			out << YAML::Key << "Tag" << YAML::Value << tag;
 
 			out << YAML::EndMap;
 		}
 
-		if (go.HasComponent<TransformComponent>()) {
+		if (obj.HasComponent<TransformComponent>()) {
 			out << YAML::Key << "TransformComponent" << YAML::BeginMap;
 
-			auto& tc = go.GetComponent<TransformComponent>();
+			auto& tc = obj.GetComponent<TransformComponent>();
 			out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
 			out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
@@ -94,10 +94,10 @@ namespace Ignition::Scene {
 			out << YAML::EndMap;
 		}
 
-		if (go.HasComponent<CameraComponent>()) {
+		if (obj.HasComponent<CameraComponent>()) {
 			out << YAML::Key << "CameraComponent" << YAML::BeginMap;
 
-			auto& cc = go.GetComponent<CameraComponent>();
+			auto& cc = obj.GetComponent<CameraComponent>();
 			auto& camera = cc.Camera;
 
 			out << YAML::Key << "Camera" << YAML::BeginMap;
@@ -118,10 +118,10 @@ namespace Ignition::Scene {
 			out << YAML::EndMap;
 		}
 
-		if (go.HasComponent<SpriteRendererComponent>()) {
+		if (obj.HasComponent<SpriteRendererComponent>()) {
 			out << YAML::Key << "SpriteRendererComponent" << YAML::BeginMap;
 
-			auto& src = go.GetComponent<SpriteRendererComponent>();
+			auto& src = obj.GetComponent<SpriteRendererComponent>();
 			out << YAML::Key << "Colour" << YAML::Value << src.Colour;
 
 			out << YAML::EndMap;
@@ -138,10 +138,10 @@ namespace Ignition::Scene {
 		auto& reg = mScene->GetRegistry();
 
 		auto view = reg.view<entt::entity>();
-		view.each([&](auto goID) {
-			GameObject go = { goID, mScene.get() };
-			if (!go) return;
-			SerialiseObject(out, go);
+		view.each([&](auto objID) {
+			Object obj = { objID, mScene.get() };
+			if (!obj) return;
+			SerialiseObject(out, obj);
 		});
 
 		out << YAML::EndSeq;
@@ -162,31 +162,31 @@ namespace Ignition::Scene {
 		std::string name = data["Scene"].as<std::string>();
 		IG_CORE_TRACE("Loading scene '{}'...", name);
 		
-		auto gos = data["Objects"];
-		if (gos) {
-			for (auto go : gos) {
-				uint64_t uuid = go["Object"].as<uint64_t>();
+		auto objs = data["Objects"];
+		if (objs) {
+			for (auto obj : objs) {
+				uint64_t uuid = obj["Object"].as<uint64_t>();
 				std::string tag;
-				auto tc = go["TagComponent"];
+				auto tc = obj["TagComponent"];
 				if (tc)
 					tag = tc["Tag"].as<std::string>();
 
 				IG_CORE_TRACE("Object {}: '{}' loaded.", uuid, tag);
 
-				GameObject deserialisedGO = mScene->CreateGameObject(tag);
+				Object deserialisedobj = mScene->CreateObject(tag);
 
-				auto transformC = go["TransformComponent"];
+				auto transformC = obj["TransformComponent"];
 				if (transformC) {
 					// Objects always have a Transform Component on creation.
-					auto& tc = deserialisedGO.GetComponent<TransformComponent>();
+					auto& tc = deserialisedobj.GetComponent<TransformComponent>();
 					tc.Translation = transformC["Translation"].as<glm::vec3>();
 					tc.Rotation = transformC["Rotation"].as<glm::vec3>();
 					tc.Scale = transformC["Scale"].as<glm::vec3>();
 				}
 
-				auto cameraC = go["CameraComponent"];
+				auto cameraC = obj["CameraComponent"];
 				if (cameraC) {
-					auto& cc = deserialisedGO.AddComponent<CameraComponent>();
+					auto& cc = deserialisedobj.AddComponent<CameraComponent>();
 
 					auto& camera = cameraC["Camera"];
 					cc.Camera.SetProjectionType((SceneCamera::ProjectionType)camera["ProjectionType"].as<int>());
@@ -203,9 +203,9 @@ namespace Ignition::Scene {
 					cc.FixedAspectRatio = cameraC["FixedAspectRatio"].as<bool>();
 				}
 
-				auto spriteRendererC = go["SpriteRendererComponent"];
+				auto spriteRendererC = obj["SpriteRendererComponent"];
 				if (spriteRendererC) {
-					auto& src = deserialisedGO.AddComponent<SpriteRendererComponent>();
+					auto& src = deserialisedobj.AddComponent<SpriteRendererComponent>();
 					src.Colour = spriteRendererC["Colour"].as<glm::vec4>();
 				}
 			}

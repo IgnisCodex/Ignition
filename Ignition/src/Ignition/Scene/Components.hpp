@@ -2,7 +2,7 @@
 
 #include "Ignition/API.hpp"
 #include "Ignition/Scene/SceneCamera.hpp"
-#include "Ignition/Scene/GameObject.hpp"
+#include "Ignition/Scene/Object.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -59,14 +59,14 @@ namespace Ignition::Scene {
 	};
 
 	struct NativeScriptComponent {
-		ScriptableGameObject* Instance = nullptr;
+		ScriptableObject* Instance = nullptr;
 
-		ScriptableGameObject*(*CreateInstance)();
+		ScriptableObject*(*CreateInstance)();
 		void (*DestroyInstance)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind() {
-			CreateInstance = []() { return static_cast<ScriptableGameObject*>(new T()); };
+			CreateInstance = []() { return static_cast<ScriptableObject*>(new T()); };
 			DestroyInstance = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};

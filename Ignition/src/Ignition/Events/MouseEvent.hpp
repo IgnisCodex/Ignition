@@ -5,7 +5,7 @@
 namespace Ignition::Events {
 	class MouseEvent : public Event {
 	public:
-		EVENT_CATEGORY(EventCategory::Input)
+		EVENT_CATEobjRY(EventCateobjry::Input)
 	};
 
 	class MouseMovedEvent : public MouseEvent {

@@ -12,7 +12,7 @@ namespace Ignition::UI {
 
 	void SceneTree::SetContext(const IGRef<Scene::Scene>& context) {
 		mSceneContext = context;
-		mSelectedGameObjectContext = {};
+		mSelectedObjectContext = {};
 	}
 
 	void SceneTree::OnImGuiRender() {
@@ -24,20 +24,20 @@ namespace Ignition::UI {
 
 				if (ImGui::BeginMenu("New")) {
 					if (ImGui::MenuItem("Empty Object"))
-						mSelectedGameObjectContext = mSceneContext->CreateGameObject("Unnamed Object");
+						mSelectedObjectContext = mSceneContext->CreateObject("Unnamed Object");
 
 					// -------- Custom -------
 					if (ImGui::MenuItem("Quad")) {
-						auto& go = mSceneContext->CreateGameObject("Unnamed Quad");
-						go.AddComponent<Scene::SpriteRendererComponent>();
-						mSelectedGameObjectContext = go;
+						auto& obj = mSceneContext->CreateObject("Unnamed Quad");
+						obj.AddComponent<Scene::SpriteRendererComponent>();
+						mSelectedObjectContext = obj;
 					}
 
 					if (ImGui::MenuItem("Camera")) {
-						auto& go = mSceneContext->CreateGameObject("Unnamed Camera");
-						go.AddComponent<Scene::CameraComponent>();
-						go.GetComponent<Scene::CameraComponent>().Active = false;
-						mSelectedGameObjectContext = go;
+						auto& obj = mSceneContext->CreateObject("Unnamed Camera");
+						obj.AddComponent<Scene::CameraComponent>();
+						obj.GetComponent<Scene::CameraComponent>().Active = false;
+						mSelectedObjectContext = obj;
 					}
 
 					ImGui::EndMenu();
@@ -47,22 +47,22 @@ namespace Ignition::UI {
 			}
 
 			auto view = mSceneContext->GetRegistry().view<entt::entity>();
-			view.each([this](auto goID) {
-				Scene::GameObject go{ goID, mSceneContext.get() };
-				DrawTree(go);
+			view.each([this](auto objID) {
+				Scene::Object obj{ objID, mSceneContext.get() };
+				DrawTree(obj);
 			});
 
 			// If left clicked on window, set context to nothing
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-				mSelectedGameObjectContext = {};
+				mSelectedObjectContext = {};
 		}
 
 		ImGui::End();
 
 
 		if (ImGui::Begin("Properties")) {
-			if (mSelectedGameObjectContext) {
-				DrawComponents(mSelectedGameObjectContext);
+			if (mSelectedObjectContext) {
+				DrawComponents(mSelectedObjectContext);
 
 				// Right click context menu for the object's property options
 				ImGuiPopupFlags flags = ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
@@ -70,7 +70,7 @@ namespace Ignition::UI {
 
 					if (ImGui::BeginMenu("Add Component")) {
 						if (ImGui::MenuItem("Sprite Renderer"))
-							mSelectedGameObjectContext.AddComponent<Scene::SpriteRendererComponent>();
+							mSelectedObjectContext.AddComponent<Scene::SpriteRendererComponent>();
 
 						ImGui::EndMenu();
 					}
@@ -82,22 +82,22 @@ namespace Ignition::UI {
 		ImGui::End();
 	}
 
-	void SceneTree::DrawTree(Scene::GameObject go) {
-		if (go.HasComponent<Scene::TagComponent>()) {
-			auto& tag = go.GetComponent<Scene::TagComponent>().Tag;
+	void SceneTree::DrawTree(Scene::Object obj) {
+		if (obj.HasComponent<Scene::TagComponent>()) {
+			auto& tag = obj.GetComponent<Scene::TagComponent>().Tag;
 
 			ImGuiTreeNodeFlags flags =
 				ImGuiTreeNodeFlags_OpenOnArrow |
-				((mSelectedGameObjectContext == go) ? ImGuiTreeNodeFlags_Selected : 0);
-			if (ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)go, flags, tag.c_str())) {
+				((mSelectedObjectContext == obj) ? ImGuiTreeNodeFlags_Selected : 0);
+			if (ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)obj, flags, tag.c_str())) {
 				ImGui::TreePop();
 			}
 
 			if (ImGui::IsItemClicked()) {
-				mSelectedGameObjectContext = go;
+				mSelectedObjectContext = obj;
 			}
 
-			bool goDeleted = false;
+			bool objDeleted = false;
 			if (ImGui::BeginPopupContextItem()) {
 
 				if (ImGui::MenuItem("Focus on Selected", "", false, false));
@@ -109,22 +109,22 @@ namespace Ignition::UI {
 
 				ImGui::PushStyleColor(ImGuiCol_Text, { red.r, red.g, red.b, red.a });
 				if (ImGui::MenuItem("Delete"))
-					goDeleted = true;
+					objDeleted = true;
 				ImGui::PopStyleColor();
 
 				ImGui::EndPopup();
 			}
 
 
-			if (go.HasComponent<Scene::TagComponent>()) {
-				auto& tc = go.GetComponent<Scene::TagComponent>();
+			if (obj.HasComponent<Scene::TagComponent>()) {
+				auto& tc = obj.GetComponent<Scene::TagComponent>();
 
 			}
 
-			if (goDeleted) {
-				mSceneContext->DeleteGameObject(go);
-				if (mSelectedGameObjectContext == go) {
-					mSelectedGameObjectContext = {};
+			if (objDeleted) {
+				mSceneContext->DeleteObject(obj);
+				if (mSelectedObjectContext == obj) {
+					mSelectedObjectContext = {};
 				}
 			}
 		}
@@ -212,14 +212,14 @@ namespace Ignition::UI {
 	}
 
 	template<typename T, typename UIFunc>
-	static void DrawComponent(const std::string& label, Scene::GameObject go, UIFunc uiFunc) {
+	static void DrawComponent(const std::string& label, Scene::Object obj, UIFunc uiFunc) {
 
-		if (go.HasComponent<T>()) {
+		if (obj.HasComponent<T>()) {
 
 			const ImGuiTreeNodeFlags flags =
 				ImGuiTreeNodeFlags_DefaultOpen |
 				ImGuiTreeNodeFlags_Framed;
-			auto& component = go.GetComponent<T>();
+			auto& component = obj.GetComponent<T>();
 			if (ImGui::TreeNodeEx((void*)typeid(T).hash_code(), flags, label.c_str())) {
 
 				// FIXME: Weird Bug
@@ -245,9 +245,9 @@ namespace Ignition::UI {
 		}
 	}
 
-	void SceneTree::DrawComponents(Scene::GameObject go) {
-		if (go.HasComponent<Scene::TagComponent>()) {
-			auto& tag = go.GetComponent<Scene::TagComponent>().Tag;
+	void SceneTree::DrawComponents(Scene::Object obj) {
+		if (obj.HasComponent<Scene::TagComponent>()) {
+			auto& tag = obj.GetComponent<Scene::TagComponent>().Tag;
 			char buffer[256]{};
 			strcpy_s(buffer, sizeof(buffer), tag.c_str());
 
@@ -256,7 +256,7 @@ namespace Ignition::UI {
 			}
  		}
 
-		DrawComponent<Scene::TransformComponent>("Transform", go, [](auto& component) {
+		DrawComponent<Scene::TransformComponent>("Transform", obj, [](auto& component) {
 			DragFloat3("Translation", component.Translation);
 
 			glm::vec3 rotation = glm::degrees(component.Rotation);
@@ -266,7 +266,7 @@ namespace Ignition::UI {
 			DragFloat3("Scale", component.Scale, 1.0f);
 		});
 
-		DrawComponent<Scene::CameraComponent>("Camera", go, [](auto& compontent) {
+		DrawComponent<Scene::CameraComponent>("Camera", obj, [](auto& compontent) {
 
 			auto& camera = compontent.Camera;
 
@@ -291,8 +291,8 @@ namespace Ignition::UI {
 
 			if (camera.GetProjectionType() == Scene::SceneCamera::ProjectionType::Perspective) {
 				float perspVFOV = glm::degrees(camera.GetPerspVFOV());
-				float perspNearClip = camera.GetOrthoNearClip();
-				float perspFarClip = camera.GetOrthoFarClip();
+				float perspNearClip = camera.GetPerspNearClip();
+				float perspFarClip = camera.GetPerspFarClip();
 
 				if (ImGui::DragFloat("Vertical FOV", &perspVFOV))
 					camera.SetPerspVFOV(glm::radians(perspVFOV));
@@ -319,10 +319,11 @@ namespace Ignition::UI {
 					camera.SetOrthoFarClip(orthoFarClip);
 
 				ImGui::Checkbox("Fixed Aspect Ratio", &compontent.FixedAspectRatio);
+
 			}
 		});
 
-		DrawComponent<Scene::SpriteRendererComponent>("Sprite", go, [](auto& compontent) {
+		DrawComponent<Scene::SpriteRendererComponent>("Sprite", obj, [](auto& compontent) {
 			ColourEdit4("Colour", compontent.Colour);
 		});
 

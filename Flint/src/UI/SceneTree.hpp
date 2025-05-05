@@ -12,11 +12,11 @@ namespace Ignition::UI {
 		void OnImGuiRender();
 
 	private:
-		void DrawTree(Scene::GameObject go);
-		void DrawComponents(Scene::GameObject go);
+		void DrawTree(Scene::Object obj);
+		void DrawComponents(Scene::Object obj);
 
 	private:
 		IGRef<Scene::Scene> mSceneContext;
-		Scene::GameObject mSelectedGameObjectContext;
+		Scene::Object mSelectedObjectContext;
 	};
 }

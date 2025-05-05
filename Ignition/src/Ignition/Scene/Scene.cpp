@@ -3,34 +3,34 @@
 
 #include "Ignition/Graphics/Renderer2D.hpp"
 #include "Ignition/Scene/Components.hpp"
-#include "Ignition/Scene/GameObject.hpp"
+#include "Ignition/Scene/Object.hpp"
 
 namespace Ignition::Scene {
 	Scene::Scene() {}
 
 	Scene::~Scene() {}
 
-	GameObject Scene::CreateGameObject(const std::string& name) {
-		GameObject go = { mRegistry.create(), this };
-		go.AddComponent<TransformComponent>();
-		auto& tag = go.AddComponent<TagComponent>();
+	Object Scene::CreateObject(const std::string& name) {
+		Object obj = { mRegistry.create(), this };
+		obj.AddComponent<TransformComponent>();
+		auto& tag = obj.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Unnamed Game Object" : name;
 
-		return go;
+		return obj;
 	}
 
-	void Scene::DeleteGameObject(GameObject go) {
-		mRegistry.destroy(go);
+	void Scene::DeleteObject(Object obj) {
+		mRegistry.destroy(obj);
 	}
 
 	void Scene::OnUpdate(Util::DeltaTime dt) {
 
 		{
 			mRegistry.view<NativeScriptComponent>().each(
-				[=](auto go, auto& nsc) {
+				[=](auto obj, auto& nsc) {
 					if (!nsc.Instance) {
 						nsc.Instance = nsc.CreateInstance();
-						nsc.Instance->mGameObject = GameObject{ go, this };
+						nsc.Instance->mObject = Object{ obj, this };
 						nsc.Instance->OnCreate();
 					}
 
@@ -42,8 +42,8 @@ namespace Ignition::Scene {
 		glm::mat4 cameraTransform;
 		{
 			auto view = mRegistry.view<TransformComponent, CameraComponent>();
-			for (auto go : view) {
-				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(go);
+			for (auto obj : view) {
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(obj);
 
 				if (camera.Active) {
 					activeCamera = &camera.Camera;
@@ -57,8 +57,8 @@ namespace Ignition::Scene {
 			Graphics::Renderer2D::SceneBegin(*activeCamera, cameraTransform);
 
 			auto group = mRegistry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto go : group) {
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(go);
+			for (auto obj : group) {
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(obj);
 
 				Graphics::Renderer2D::DrawQuad(transform.GetTransform(), sprite.Colour);
 			}
@@ -76,8 +76,8 @@ namespace Ignition::Scene {
 
 		// Resize Non FixedAspectRatio cameras
 		auto view = mRegistry.view<CameraComponent>();
-		for (auto go : view) {
-			auto& cameraComponent = view.get<CameraComponent>(go);
+		for (auto obj : view) {
+			auto& cameraComponent = view.get<CameraComponent>(obj);
 			if (!cameraComponent.FixedAspectRatio)
 				cameraComponent.Camera.SetViewportSize(width, height);
 		}

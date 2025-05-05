@@ -37,8 +37,8 @@ namespace Ignition {
 
 		IGRef<Scene::Scene> mActiveScene;
 
-		Scene::GameObject mSquareGO;
-		Scene::GameObject mCameraGO;
+		Scene::Object mSquareObj;
+		Scene::Object mCameraObj;
 
 		glm::vec2 mViewportSize = { 0.0f, 0.0f };
 

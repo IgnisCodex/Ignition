@@ -7,7 +7,7 @@ namespace Ignition::Events {
 	class KeyboardEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return mKeyCode; }
-		EVENT_CATEGORY(EventCategory::Input)
+		EVENT_CATEobjRY(EventCateobjry::Input)
 
 	protected:
 		KeyboardEvent(int key)

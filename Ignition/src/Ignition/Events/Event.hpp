@@ -31,7 +31,7 @@ namespace Ignition::Events {
 		ApplicationRender
 	};
 
-	enum class EventCategory {
+	enum class EventCateobjry {
 		None,
 
 		Application,
@@ -41,7 +41,7 @@ namespace Ignition::Events {
 #define EVENT_TYPE(type) static EventType GetStaticType() { return type; }\
 	virtual EventType GetType() const override { return GetStaticType(); }
 
-#define EVENT_CATEGORY(category) virtual EventCategory GetCategory() const override { return category; }
+#define EVENT_CATEobjRY(cateobjry) virtual EventCateobjry GetCateobjry() const override { return cateobjry; }
 
 	class Event {
 		friend class EventDispatcher;
@@ -49,14 +49,14 @@ namespace Ignition::Events {
 		virtual ~Event() = default;
 		virtual std::string GetName() const = 0;
 		virtual EventType GetType() const = 0;
-		virtual EventCategory GetCategory() const = 0;
+		virtual EventCateobjry GetCateobjry() const = 0;
 
 		bool IsType(EventType type) const {
 			return GetType() == type;
 		}
 
-		bool IsInCategory(EventCategory category) const {
-			return GetCategory() == category;
+		bool IsInCateobjry(EventCateobjry cateobjry) const {
+			return GetCateobjry() == cateobjry;
 		}
 
 		bool IsHandled = false;

@@ -5,15 +5,15 @@
 #include <entt.hpp>
 
 namespace Ignition::Scene {
-	class GameObject;
+	class Object;
 
 	class Scene {
 	public:
 		Scene();
 		~Scene();
 
-		GameObject CreateGameObject(const std::string& name = "");
-		void DeleteGameObject(GameObject go);
+		Object CreateObject(const std::string& name = "");
+		void DeleteObject(Object obj);
 		
 		void OnUpdate(Util::DeltaTime dt);
 		void OnViewportResize(uint32_t width, uint32_t height);
@@ -25,7 +25,7 @@ namespace Ignition::Scene {
 
 		entt::registry mRegistry;
 
-		friend class GameObject;
+		friend class Object;
 		friend class Serialiser;
 	};
 }

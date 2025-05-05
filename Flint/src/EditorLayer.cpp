@@ -22,51 +22,6 @@ namespace Ignition {
 
 		mActiveScene = IGCreateRef<Scene::Scene>();
 
-		/*
-
-		auto square = mActiveScene->CreateGameObject("Square");
-		square.AddComponent<Scene::SpriteRendererComponent>(rgb(255, 255, 255));
-		mSquareGO = square;
-
-		mCameraGO = mActiveScene->CreateGameObject("Camera");
-		mCameraGO.AddComponent<Scene::CameraComponent>();
-
-		class CameraContr : public Scene::ScriptableGameObject {
-		public:
-			void OnCreate() {
-				
-			}
-
-			void OnDestroy() {
-
-			}
-
-			void OnUpdate(Util::DeltaTime dt) {
-				auto& active = GetComponent<Scene::CameraComponent>().Active;
-				if (active) {
-					auto& translation = GetComponent<Scene::TransformComponent>().Translation;
-					float speed = 5.0f;
-
-					if (Core::Input::IsKeyPressed(IG_KEY_W))
-						translation.y += speed * dt.s();
-
-					else if (Core::Input::IsKeyPressed(IG_KEY_S))
-						translation.y -= speed * dt.s();
-
-
-					if (Core::Input::IsKeyPressed(IG_KEY_D))
-						translation.x += speed * dt.s();
-
-					else if (Core::Input::IsKeyPressed(IG_KEY_A))
-						translation.x -= speed * dt.s();
-				}
-			}
-		};
-
-		mCameraGO.AddComponent<Scene::NativeScriptComponent>().Bind<CameraContr>();
-
-		*/
-
 		mSceneTree.SetContext(mActiveScene);
 	}
 
